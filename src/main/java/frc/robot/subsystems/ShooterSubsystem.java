@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,17 +21,17 @@ public class ShooterSubsystem extends SubsystemBase {
     TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.shooterMotorId);
 
     CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
-      .withSupplyCurrentLimit(40)
-      .withSupplyCurrentLimitEnable(true)
-      .withStatorCurrentLimit(40)
-      .withStatorCurrentLimitEnable(true);
+      .withSupplyCurrentLimit(Constants.ShooterConstants.SupplyCurrentLimit)
+      .withSupplyCurrentLimitEnable(Constants.ShooterConstants.SupplyCurrentLimitEnable)
+      .withStatorCurrentLimit(Constants.ShooterConstants.StatorCurrentLimit)
+      .withStatorCurrentLimitEnable(Constants.ShooterConstants.StatorCurrentLimitEnable);
 
     Slot0Configs slot0Configs = new Slot0Configs()
-      .withKS(0.05)
-      .withKV(0.12)
-      .withKP(0.11)
-      .withKI(0.5)
-      .withKD(0.01);
+      .withKS(Constants.ShooterConstants.KS)
+      .withKV(Constants.ShooterConstants.KV)
+      .withKP(Constants.ShooterConstants.KP)
+      .withKI(Constants.ShooterConstants.KI)
+      .withKD(Constants.ShooterConstants.KD);
 
     TalonFXConfiguration toConfigure = new TalonFXConfiguration()
       .withCurrentLimits(m_currentLimits)
@@ -45,29 +46,13 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor.setNeutralMode(NeutralModeValue.Brake);
   }
     
-  // public Command setVelocity(double speed) {
-  //   //return shooterMotor.setControl(m_velocityVoltage.withVelocity(speed));
-  // }
+  public Command setVelocity(double speed) {
+    var request = new VelocityVoltage(0).withSlot(0);
 
-
-
-  public Command ShooterMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An Shooter method querying a boolean state of the subsystem (for Shooter, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean ShooterCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+    return startEnd(
+      () -> shooterMotor.setControl(request.withVelocity(speed).withFeedForward(0.5)), //Button pressed
+      () -> shooterMotor.setControl(request.withVelocity(0).withFeedForward(0.5)) //Button Released
+    );
   }
 
   @Override

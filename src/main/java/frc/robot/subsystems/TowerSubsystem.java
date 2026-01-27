@@ -4,35 +4,27 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.SparkMax;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TowerSubsystem extends SubsystemBase {
-  /** Creates a new TowerSubsystem. */
-  public TowerSubsystem() {}
+  SparkMax intakeDeploy = new SparkMax(13, MotorType.kBrushless);
 
-  /**
-   * Tower command factory method.
-   *
-   * @return a command
-   */
-  public Command TowerMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  public TowerSubsystem() {
+
   }
 
-  /**
-   * An Tower method querying a boolean state of the subsystem (for Tower, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean TowerCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+  public Command setVelocity(double speed) {
+
+    return startEnd(
+      () -> intakeDeploy.set(speed), 
+      () -> intakeDeploy.set(0)
+    );
   }
 
   @Override

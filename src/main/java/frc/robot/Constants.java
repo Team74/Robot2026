@@ -65,6 +65,16 @@ public final class Constants
   public static class ShooterConstants
   {
     public static int shooterMotorId = 3;
+    public static int desiredRPS = -10000;
+    public static double KS = 0.05;
+    public static double KV = 0.12;
+    public static double KP = 0.11;
+    public static double KI = 0.5;
+    public static double KD = 0.01;
+    public static int SupplyCurrentLimit = 40;
+    public static boolean SupplyCurrentLimitEnable = true;
+    public static int StatorCurrentLimit = 40;
+    public static boolean StatorCurrentLimitEnable = true;
   }
   public static class TownerConstants
   {
