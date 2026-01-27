@@ -11,11 +11,13 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.LEDCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.TowerCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 
@@ -45,6 +47,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -81,7 +84,7 @@ public class RobotContainer {
 
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
 
-
+      m_driverController.rightTrigger().whileTrue(m_shooterSubsystem.ShooterMethodCommand());
 
   }
 

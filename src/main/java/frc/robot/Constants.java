@@ -53,4 +53,21 @@ public final class Constants
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
+
+  public static class ClimberConstants
+  {
+    
+  }
+  public static class IntakeConstants
+  {
+    
+  }
+  public static class ShooterConstants
+  {
+    public static int shooterMotorId = 3;
+  }
+  public static class TownerConstants
+  {
+    
+  }
 }
