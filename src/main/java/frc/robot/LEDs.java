@@ -30,7 +30,7 @@ public class LEDs  {
     leds = new AddressableLED(5);
     ledBuff =
         new AddressableLEDBuffer(
-            85); // something around 280 length for full LED (only 85 on robot though)
+            70); // something around 280 length for full LED (only 85 on robot though)
     // TODO: what does that comment above mean?
     leds.setLength(ledBuff.getLength());
     leds.setData(ledBuff);
@@ -57,7 +57,7 @@ public class LEDs  {
 
     if (!solidColor) {
       x = 85;
-      ledBuff.setHSV(value, 180, 1, raindrop[value] - 1);
+      ledBuff.setHSV(value, 180, 1, raindrop[value] - 3);
 
       timespeed++; // use this to control the speed of other variables around like the color change.
       timespeed = timespeed % 2; // higher value = slower time/speed.
@@ -74,7 +74,7 @@ public class LEDs  {
       if (mode1) {
         x = 95;
         for (var i = value; i < 1 + value; i++) {
-          ledBuff.setHSV(i, raindrop[i], 255, 255);
+          ledBuff.setHSV(i, raindrop[i], 255, 100);
         }
 
         if (value > 11) { // Cancels the leds 10 indexes behind, giving it a moving effect
@@ -90,7 +90,7 @@ public class LEDs  {
 
       if (mode2) {
         x = 85;
-        ledBuff.setHSV(value, raindrop[value2], 255, 255);
+        ledBuff.setHSV(value, raindrop[value2], 255, 100);
       }
 
       if (mode3) {
@@ -98,7 +98,7 @@ public class LEDs  {
         for (var i = value + 42; i < value + 43; i++) ledBuff.setHSV(i, raindrop[value2], 255, 255);
 
         for (var i = -value + 42; i < -value + 43; i++)
-          ledBuff.setHSV(i, raindrop[value2], 255, 255);
+          ledBuff.setHSV(i, raindrop[value2], 255, 100);
       }
 
     } else {
