@@ -102,7 +102,7 @@ public class LEDs  {
       }
 
     } else {
-      for (int i = 0; i < 85; i++) ledBuff.setLED(i, color);
+      for (int i = 0; i < 70; i++) ledBuff.setLED(i, color);
     }
     leds.setData(ledBuff);
   }
