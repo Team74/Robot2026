@@ -48,7 +48,7 @@ public class LEDs  {
       }
 
       for (var i = 0; i != 85; i++) {
-        ledBuff.setHSV(i, 130, 255, 255);
+        ledBuff.setHSV(i, 130, 255, 50);
       }
     }
   }
@@ -74,7 +74,7 @@ public class LEDs  {
       if (mode1) {
         x = 95;
         for (var i = value; i < 1 + value; i++) {
-          ledBuff.setHSV(i, raindrop[i], 255, 100);
+          ledBuff.setHSV(i, raindrop[i], 255, 50);
         }
 
         if (value > 11) { // Cancels the leds 10 indexes behind, giving it a moving effect
@@ -90,12 +90,12 @@ public class LEDs  {
 
       if (mode2) {
         x = 85;
-        ledBuff.setHSV(value, raindrop[value2], 255, 100);
+        ledBuff.setHSV(value, raindrop[value2], 255, 50);
       }
 
       if (mode3) {
         x = 43;
-        for (var i = value + 42; i < value + 43; i++) ledBuff.setHSV(i, raindrop[value2], 255, 255);
+        for (var i = value + 42; i < value + 43; i++) ledBuff.setHSV(i, raindrop[value2], 255, 50);
 
         for (var i = -value + 42; i < -value + 43; i++)
           ledBuff.setHSV(i, raindrop[value2], 255, 100);
