@@ -51,7 +51,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public Command shoot(){
     return run(()->{
       var request = new VelocityVoltage(0).withSlot(0);
-      shooterMotor.setControl(request.withVelocity(Constants.ShooterConstants.shooterSpeed).withFeedForward(0.5));
+      shooterMotor.setControl(request.withVelocity(Constants.ShooterConstants.desiredRPS).withFeedForward(0.5));
     });
   } 
 
