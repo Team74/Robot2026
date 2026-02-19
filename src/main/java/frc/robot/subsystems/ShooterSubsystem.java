@@ -15,6 +15,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -22,18 +23,18 @@ public class ShooterSubsystem extends SubsystemBase {
   TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.ShooterMotorID);
   SparkMax hoodMotor = new SparkMax(Constants.ShooterConstants.HoodMotorID, MotorType.kBrushless); 
 
-  CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
-    .withSupplyCurrentLimit(40)
-    .withSupplyCurrentLimitEnable(true)
-    .withStatorCurrentLimit(40)
-    .withStatorCurrentLimitEnable(true);
+    CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
+      .withSupplyCurrentLimit(Constants.ShooterConstants.SupplyCurrentLimit)
+      .withSupplyCurrentLimitEnable(Constants.ShooterConstants.SupplyCurrentLimitEnable)
+      .withStatorCurrentLimit(Constants.ShooterConstants.StatorCurrentLimit)
+      .withStatorCurrentLimitEnable(Constants.ShooterConstants.StatorCurrentLimitEnable);
 
-  Slot0Configs slot0Configs = new Slot0Configs()
-    .withKS(0.05)
-    .withKV(0.12)
-    .withKP(0.11)
-    .withKI(0.5)
-    .withKD(0.01);
+    Slot0Configs slot0Configs = new Slot0Configs()
+      .withKS(Constants.ShooterConstants.KS)
+      .withKV(Constants.ShooterConstants.KV)
+      .withKP(Constants.ShooterConstants.KP)
+      .withKI(Constants.ShooterConstants.KI)
+      .withKD(Constants.ShooterConstants.KD);
 
   TalonFXConfiguration toConfigure = new TalonFXConfiguration()
     .withCurrentLimits(m_currentLimits)

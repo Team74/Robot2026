@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -105,6 +106,9 @@ public class RobotContainer {
     m_driverController.a().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
     drivetrain.registerTelemetry(logger::telemeterize);
+      // m_driverController.rightTrigger().whileTrue(m_shooterSubsystem.setVelocity(Constants.ShooterConstants.desiredRPS));
+
+      // m_driverController.a().whileTrue(m_towerSubsystem.setVelocity(0.5));
 
     configureIntakeBindings();
     configureShooterBindings();
