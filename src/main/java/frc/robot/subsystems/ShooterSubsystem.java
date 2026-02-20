@@ -22,6 +22,7 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
   TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.ShooterMotorID);
   SparkMax hoodMotor = new SparkMax(Constants.ShooterConstants.HoodMotorID, MotorType.kBrushless); 
+  SparkMax towerMotor = new SparkMax(Constants.ShooterConstants.TowerMotorID, MotorType.kBrushless);
 
     CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
       .withSupplyCurrentLimit(Constants.ShooterConstants.SupplyCurrentLimit)
@@ -52,6 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return run(()->{
       var request = new VelocityVoltage(0).withSlot(0);
       shooterMotor.setControl(request.withVelocity(Constants.ShooterConstants.desiredRPS).withFeedForward(0.5));
+      towerMotor.set(1);
     });
   } 
 
@@ -59,6 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return run(()->{
       var request = new VelocityVoltage(0).withSlot(0);
       shooterMotor.setControl(request.withVelocity(0).withFeedForward(0.5));
+      towerMotor.set(0);
     });
   } 
 
