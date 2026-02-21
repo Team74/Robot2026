@@ -22,19 +22,20 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
   TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.ShooterMotorID);
   SparkMax hoodMotor = new SparkMax(Constants.ShooterConstants.HoodMotorID, MotorType.kBrushless); 
+  SparkMax towerMotor = new SparkMax(Constants.ShooterConstants.TowerMotorID, MotorType.kBrushless); 
 
-    CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
-      .withSupplyCurrentLimit(Constants.ShooterConstants.SupplyCurrentLimit)
-      .withSupplyCurrentLimitEnable(Constants.ShooterConstants.SupplyCurrentLimitEnable)
-      .withStatorCurrentLimit(Constants.ShooterConstants.StatorCurrentLimit)
-      .withStatorCurrentLimitEnable(Constants.ShooterConstants.StatorCurrentLimitEnable);
+  CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
+    .withSupplyCurrentLimit(Constants.ShooterConstants.SupplyCurrentLimit)
+    .withSupplyCurrentLimitEnable(Constants.ShooterConstants.SupplyCurrentLimitEnable)
+    .withStatorCurrentLimit(Constants.ShooterConstants.StatorCurrentLimit)
+    .withStatorCurrentLimitEnable(Constants.ShooterConstants.StatorCurrentLimitEnable);
 
-    Slot0Configs slot0Configs = new Slot0Configs()
-      .withKS(Constants.ShooterConstants.KS)
-      .withKV(Constants.ShooterConstants.KV)
-      .withKP(Constants.ShooterConstants.KP)
-      .withKI(Constants.ShooterConstants.KI)
-      .withKD(Constants.ShooterConstants.KD);
+  Slot0Configs slot0Configs = new Slot0Configs()
+    .withKS(Constants.ShooterConstants.KS)
+    .withKV(Constants.ShooterConstants.KV)
+    .withKP(Constants.ShooterConstants.KP)
+    .withKI(Constants.ShooterConstants.KI)
+    .withKD(Constants.ShooterConstants.KD);
 
   TalonFXConfiguration toConfigure = new TalonFXConfiguration()
     .withCurrentLimits(m_currentLimits)
@@ -42,6 +43,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   VelocityVoltage m_velocityVoltage = new VelocityVoltage(0)
     .withSlot(0);
+
+  double hoodSpeed = 0.25;
 
   public ShooterSubsystem() {
     shooterMotor.getConfigurator().apply(toConfigure);
@@ -52,25 +55,27 @@ public class ShooterSubsystem extends SubsystemBase {
     return run(()->{
       var request = new VelocityVoltage(0).withSlot(0);
       shooterMotor.setControl(request.withVelocity(Constants.ShooterConstants.desiredRPS).withFeedForward(0.5));
+      towerMotor.set(-Constants.ShooterConstants.desiredRPS);
     });
   } 
 
   public Command stopShooter(){
     return run(()->{
       var request = new VelocityVoltage(0).withSlot(0);
-      shooterMotor.setControl(request.withVelocity(0).withFeedForward(0.5));
+      shooterMotor.setControl(request.withVelocity(0));
+      towerMotor.set(0);
     });
   } 
 
   public Command MoveHoodOut(){
     return run(()->{
-      hoodMotor.set(0.25);
+      hoodMotor.set(hoodSpeed);
     });
   }
 
   public Command MoveHoodIn(){
     return run(()->{
-      hoodMotor.set(-0.25);
+      hoodMotor.set(-hoodSpeed);
     });
   }
 

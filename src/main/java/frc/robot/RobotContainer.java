@@ -123,7 +123,7 @@ public class RobotContainer {
     m_operatorController.a().onTrue(m_intakeSubsystem.Swap()).whileFalse(m_intakeSubsystem.Moveintake());
 
     //turn intake wheels on.
-    m_operatorController.leftTrigger().onTrue(m_intakeSubsystem.Swap()).whileFalse(m_intakeSubsystem.Moveintake());
+    m_operatorController.leftTrigger().onTrue(m_intakeSubsystem.intakeIn()).whileFalse(m_intakeSubsystem.intakeStop());
   }
   void configureShooterBindings() {
     m_operatorController.leftBumper().onTrue(m_shooterSubsystem.MoveHoodOut()).whileFalse(m_shooterSubsystem.StopHood());

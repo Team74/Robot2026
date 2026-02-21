@@ -30,7 +30,7 @@ public class IntakeSubsystem extends SubsystemBase{
     double reduceMoverSpeed = 0.25;
 
     double upEncoderValue = 0;
-    double downEncoderValue = 11.5;
+    double downEncoderValue = 10;
 
     public IntakeSubsystem(){     
       SparkMaxConfig moverConfig = new SparkMaxConfig();
@@ -50,7 +50,8 @@ public class IntakeSubsystem extends SubsystemBase{
     }
     public Command intakeIn(){
       return run(()->{
-        intakeMax.set(intakeSpeed);
+        intakeMax.set(-intakeSpeed);
+        System.out.println(intakeSpeed);
       });
     } 
 
