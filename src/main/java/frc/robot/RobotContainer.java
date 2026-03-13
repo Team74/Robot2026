@@ -97,13 +97,9 @@ public class RobotContainer {
             point.withModuleDirection(new Rotation2d(-driverXbox.getLeftY(), -driverXbox.getLeftX()))
         ));
 
-        driverXbox.y().whileTrue(drivetrain.path_find_to(
-                                new Pose2d(new Translation2d(Meter.of(1),
-                                Meter.of(4)),
-                                Rotation2d.fromDegrees(0)
-                                ),TunerConstants.kSpeedAt12Volts
-                            ));
-
+        //Lets test driving to a testPOI.....
+        var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
+        driverXbox.y().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
 
         driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
