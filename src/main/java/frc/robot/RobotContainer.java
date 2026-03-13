@@ -4,134 +4,219 @@
 
 package frc.robot;
 
-import frc.robot.Constants.*;
-import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.TowerSubsystem;
-import java.io.File;
-
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-
 import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.FollowPathCommand;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
+import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeFlipper;
+import frc.robot.subsystems.Shooter;
 
-
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 public class RobotContainer {
-  /* Setting up bindings for necessary control of the swerve drive platform */
-  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-          .withDeadband(OperatorConstants.DEADBAND)
-          .withRotationalDeadband(Constants.MaxAngularRate * 0.1) // Add a 10% deadband
-          .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
-  private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-  private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final Hood hood = new Hood();
+    private final Intake intake = new Intake();
+    private final IntakeFlipper intakeFlipper = new IntakeFlipper();
+    private final Shooter shooter = new Shooter(intake);
+    private final Climber climber = new Climber();
 
-  private final Telemetry logger = new Telemetry(Constants.MAX_SPEED);
+    /* Setting up bindings for necessary control of the swerve drive platform */
+    private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
+                                                        .withDeadband(0)
+                                                        .withRotationalDeadband(0)
+                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
-  private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController m_operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+                                                                .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+    private final Telemetry logger = new Telemetry(CommandSwerveDrivetrain.MaxSpeed, drivetrain.getPigeon2());
+
+    private final CommandXboxController driverXbox = new CommandXboxController(0);
+    private final CommandXboxController operatorXbox = new CommandXboxController(1);
+
+    /* Path follower */
+    private final SendableChooser<Command> autoChooser;
+
+    public RobotContainer() {
+        autoChooser = AutoBuilder.buildAutoChooser("Tests");
+        SmartDashboard.putData("Auto Mode", autoChooser);
+
+        configureBindings();
+
+        // Warmup PathPlanner to avoid Java pauses
+        CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
+    }
+
+    private void configureBindings() {
+        // Note that X is defined as forward according to WPILib convention,
+        // and Y is defined as to the left according to WPILib convention.
+        drivetrain.setDefaultCommand(
+            // Drivetrain will execute this command periodically
+            drivetrain.applyRequest(() ->
+                drive.withVelocityX(MathUtil.applyDeadband(-driverXbox.getLeftY(), 0.1)) // Drive forward with negative Y (forward)
+                    .withVelocityY(MathUtil.applyDeadband(-driverXbox.getLeftX(), 0.1)) // Drive left with negative X (left)
+                    .withRotationalRate(MathUtil.applyDeadband(-driverXbox.getRightX(), 0.1)) // Drive counterclockwise with negative X (left)
+            )
+        );
+
+        // Idle while the robot is disabled. This ensures the configured
+        // neutral mode is applied to the drive motors while disabled.
+        final var idle = new SwerveRequest.Idle();
+        RobotModeTriggers.disabled().whileTrue(
+            drivetrain.applyRequest(() -> idle).ignoringDisable(true)
+        );
+
+        driverXbox.a().whileTrue(drivetrain.applyRequest(() -> brake));
+
+        driverXbox.b().whileTrue(drivetrain.applyRequest(() ->
+            point.withModuleDirection(new Rotation2d(-driverXbox.getLeftY(), -driverXbox.getLeftX()))
+        ));
+
+        driverXbox.y().whileTrue(drivetrain.path_find_to(
+                                new Pose2d(new Translation2d(Meter.of(1),
+                                Meter.of(4)),
+                                Rotation2d.fromDegrees(0)
+                                ),TunerConstants.kSpeedAt12Volts
+                            ));
 
 
-  private final SendableChooser<Command> autoChooser;
+        driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
+            forwardStraight.withVelocityX(0.5).withVelocityY(0))
+        );
+        driverXbox.povDown().whileTrue(drivetrain.applyRequest(() ->
+            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+        );
 
-  public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final LEDSubsystem m_ledSubsystem = new LEDSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  private final TowerSubsystem m_towerSubsystem = new TowerSubsystem();
+        // Run SysId routines when holding back/start and X/Y.
+        // Note that each routine should be run exactly once in a single log.
+        // driverXbox.back().and(driverXbox.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // driverXbox.back().and(driverXbox.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // driverXbox.start().and(driverXbox.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // driverXbox.start().and(driverXbox.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
+        // // Reset the field-centric heading on left bumper press.
+        // driverXbox.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-  public RobotContainer() {
-    configureBindings();
+        TurretSubsystem();
+        IntakeSubsystem();
+        ClimberSubsystem();
+        LEDs();
 
-    DriverStation.silenceJoystickConnectionWarning(true);
+        drivetrain.registerTelemetry(logger::telemeterize);
+    }
 
-    autoChooser = AutoBuilder.buildAutoChooser();
+    public Command getAutonomousCommand() {
+        /* Run the path selected from the auto chooser */
+        return autoChooser.getSelected();
+    }
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    void LEDs() {
+      //led.ColorChange(led.HubTimer()).repeatedly();
+    }
 
-    NamedCommands.registerCommand("shoot", m_shooterSubsystem.shoot());
-    NamedCommands.registerCommand("stopShooter", m_shooterSubsystem.stopShooter());
-  }
+    void TurretSubsystem() {
+      //shooter flywheels
+      //tower motor
+      //Hot dogrollers
+      operatorXbox.rightTrigger()
+        .onTrue(shooter.shoot(operatorXbox.b().getAsBoolean()))
+        .onFalse(shooter.stopShooter());
 
-  private void configureBindings() {
-    drivetrain.setDefaultCommand(
-      drivetrain.applyRequest(() ->
-        drive.withVelocityX(-m_driverController.getLeftY() * Constants.MAX_SPEED) // Drive forward with negative Y (forward)
-        .withVelocityY(-m_driverController.getLeftX() * Constants.MAX_SPEED) // Drive left with negative X (left)
-        .withRotationalRate(-m_driverController.getRightX() * Constants.MaxAngularRate) // Drive counterclockwise with negative X (left)
-      )
-    );
-        
-    final var idle = new SwerveRequest.Idle();
-    RobotModeTriggers.disabled().whileTrue(
-      drivetrain.applyRequest(() -> idle).ignoringDisable(true)
-    );
+      //Hood Motor
+      operatorXbox.leftBumper()
+        .onTrue(hood.MoveHood(operatorXbox.b().getAsBoolean()))
+        .onFalse(hood.StopHood());
+    }
 
-    m_driverController.leftBumper().whileTrue(drivetrain.applyRequest(() -> brake));
-    m_driverController.b().whileTrue(drivetrain.applyRequest(() ->
-      point.withModuleDirection(new Rotation2d(-m_driverController.getLeftY(), -m_driverController.getLeftX()))
-    ));
+    void IntakeSubsystem() {
+      //Intake Roller Motor
+      operatorXbox.leftTrigger()
+        .whileTrue(intake.moveIntake(operatorXbox.b().getAsBoolean()))
+        .whileFalse(intake.intakeStop());
 
-    m_driverController.back().and(m_driverController.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-    m_driverController.back().and(m_driverController.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-    m_driverController.start().and(m_driverController.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-    m_driverController.start().and(m_driverController.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+      //Intake Flipper Motor
+      //Debouce events faster than 0.2 seconds
+      operatorXbox.x()
+        .debounce(0.2)
+        .onTrue(intakeFlipper.SwapDesiredState())
+        .onFalse(intakeFlipper.MoveToDesiredState());
 
-    m_driverController.a().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+      operatorXbox.a()
+        .onTrue(intake.moveHotDog(operatorXbox.b().getAsBoolean()))
+        .onFalse(intake.stopHotDog());
+    }
+  
+    void ClimberSubsystem() {
+      // up on the D-Pad goes up
+      operatorXbox.povUp()
+        .onTrue(climber.ClimbUp())
+        .whileFalse(climber.ClimbStop());
 
-    drivetrain.registerTelemetry(logger::telemeterize);
-      // m_driverController.rightTrigger().whileTrue(m_shooterSubsystem.setVelocity(Constants.ShooterConstants.desiredRPS));
+      // down on the D-Pad goes down
+      operatorXbox.povDown()
+        .onTrue(climber.ClimbDown())
+        .whileFalse(climber.ClimbStop());
+    }
 
-      // m_driverController.a().whileTrue(m_towerSubsystem.setVelocity(0.5));
+    void testControls() {
+      //Shooter Motors
+      operatorXbox.rightTrigger()
+        .onTrue(shooter.shoot(operatorXbox.b().getAsBoolean()))
+        .onFalse(shooter.stopShooter());
+      
+      //Tower Motor
+      operatorXbox.leftTrigger()
+        .onTrue(shooter.testTower(operatorXbox.b().getAsBoolean()))
+        .onFalse(shooter.stopTower());
 
-    configureIntakeBindings();
-    configureShooterBindings();
-  }
+      //Hot dog Motor
+      operatorXbox.rightBumper()
+        .onTrue(intake.moveHotDog(operatorXbox.b().getAsBoolean()))
+        .onFalse(intake.stopHotDog());
 
-  public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
-  }
+      //Hood Motor
+      operatorXbox.leftBumper()
+        .onTrue(hood.MoveHood(operatorXbox.b().getAsBoolean()))
+        .onFalse(hood.StopHood());
 
-  void configureIntakeBindings() {
-    //move intake system in and out
-    m_operatorController.a().onTrue(m_intakeSubsystem.Swap()).whileFalse(m_intakeSubsystem.Moveintake());
+      //Intake Roller Motor
+      operatorXbox.y()
+        .onTrue(intake.moveIntake(operatorXbox.b().getAsBoolean()))
+        .onFalse(intake.intakeStop());
 
-    //turn intake wheels on.
-    m_operatorController.leftTrigger().onTrue(m_intakeSubsystem.intakeIn()).whileFalse(m_intakeSubsystem.intakeStop());
-  }
-  void configureShooterBindings() {
-    m_operatorController.leftBumper().onTrue(m_shooterSubsystem.MoveHoodOut()).whileFalse(m_shooterSubsystem.StopHood());
-    m_operatorController.rightBumper().onTrue(m_shooterSubsystem.MoveHoodIn()).whileFalse(m_shooterSubsystem.StopHood());
-    m_operatorController.rightTrigger().onTrue(m_shooterSubsystem.shoot()).whileFalse(m_shooterSubsystem.stopShooter());
-  }
+      //Intake Flipper Motor
+      operatorXbox.x()
+        .onTrue(intakeFlipper.SwapDesiredState())
+        .onFalse(intakeFlipper.MoveToDesiredState());
+
+      //Climber Motor
+      operatorXbox.a()
+        .onTrue(climber.Climb(operatorXbox.b().getAsBoolean()))
+        .onFalse(climber.ClimbStop());
+    }
 }

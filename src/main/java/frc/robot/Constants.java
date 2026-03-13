@@ -20,30 +20,24 @@ public final class Constants
 
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-  public static final double TURRET_TURN_MOTOR_ID = 1; //THESE ID NUMBERS ARE INCORRECT!!! FIX WHEN CAD GETS THEIR STUFF TOGETHER!!
-  public static final double TURRET_SHOOT_MOTOR_ID = 2; // WILL NEED FIXING  
-
-  // Maximum speed of the robot in meters per second, used to limit acceleration.
-
-//  public static final class AutonConstants
-//  {
-//
-//    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
-//    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0.01);
-//  }
 
   public static final class DrivebaseConstants
   {
-
+    public static final int GyroID = 2;
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
+  public static class IntakeConstants
+  {    
+    public static final int HotdogmotorID = 31;
+    public static final int MoverMotorID = 34;
+    public static final int FeederMotorID = 33;
+    public static final double IntakeMoverSpeed = 0.3;
+  }
+
   public static class OperatorConstants
   {
-    public static int kDriverControllerPort = 0;
-    public static int kOperatorControllerPort = 1;
-
     // Joystick Deadband
     public static final double DEADBAND        = 0.1;
     public static final double LEFT_Y_DEADBAND = 0.1;
@@ -51,23 +45,13 @@ public final class Constants
     public static final double TURN_CONSTANT    = 6;
   }
 
-  public static class ClimberConstants
-  {
-    
-  }
-  public static class IntakeConstants
-  {    
-    public static final int MoverMotorID = 12;
-    public static final int FeederMotorID = 33;
-
-    
-  }
-  public static class ShooterConstants
-  {
-    public static final int HoodMotorID = 3;
-    public static final int TowerMotorID = 46;
+  public static class ShooterConstants{
+    public static final int HoodMotorID = 46;
+    public static final int TowerMotorID = 3;
     public static final int ShooterMotorID = 6;
-    public static int desiredRPS = -64;
+    public static final int ShooterMotor2ID = 7;
+    public static int shooterDesiredRPS = 90;
+    public static int towerDesiredRPS = 90;
     public static double KS = 0.05;
     public static double KV = 0.12;
     public static double KP = 0.11;
@@ -78,8 +62,13 @@ public final class Constants
     public static int StatorCurrentLimit = 40;
     public static boolean StatorCurrentLimitEnable = true;
   }
-  public static class TownerConstants
-  {
-    
+
+  public static class ClimberConstants{
+    public static final int ClimbMotorID = 30;
+    public static final double ClimbSpeed = .7;
+  }
+
+  public static class VisionConstants {
+    public static final String limelightName = "limelight-bot";
   }
 }
