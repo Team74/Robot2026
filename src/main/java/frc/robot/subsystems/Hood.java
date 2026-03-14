@@ -16,14 +16,13 @@ import com.revrobotics.spark.config.LimitSwitchConfigAccessor;
 
 public class Hood extends SubsystemBase {
     SparkMax hood = new SparkMax(Constants.ShooterConstants.HoodMotorID,MotorType.kBrushless);
-    //XboxController controller = new XboxController(1);
-    double hoodSpeed = 0.25;
+    double hoodSpeed = Constants.ShooterConstants.hoodSpeed;
    
     DigitalInput magSwitch = new DigitalInput(2);
 
     public Command MoveHoodIn(){
         return run(()->{
-            hood.set(-hoodSpeed);
+            hood.set(hoodSpeed * -1);
         });
     }
 
@@ -40,17 +39,6 @@ public class Hood extends SubsystemBase {
     public Command StopHood(){
         return run(()->{
             hood.set(0);
-
-        });
-    }
-
-    public Command MoveHood(boolean reverse){
-        return run(()->{
-            double desiredSpeed = -hoodSpeed;
-            if(reverse){
-                desiredSpeed = -desiredSpeed;
-            }
-            hood.set(desiredSpeed);
         });
     }
 

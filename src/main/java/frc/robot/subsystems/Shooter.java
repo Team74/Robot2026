@@ -31,8 +31,10 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 //import com.ctre.phoenix6.sim.TalonFXSimState.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -49,7 +51,13 @@ public class Shooter extends SubsystemBase {
   TalonFX shooterMotor = new TalonFX(Constants.ShooterConstants.ShooterMotorID);
   TalonFX shooterMotor2 = new TalonFX(Constants.ShooterConstants.ShooterMotor2ID);
   SparkMax towerMotor = new SparkMax(Constants.ShooterConstants.TowerMotorID, MotorType.kBrushless); 
- 
+  SparkMax hotdogMotor = new SparkMax(Constants.IntakeConstants.HotdogmotorID,MotorType.kBrushless);
+
+  Follower thign = new Follower(6, MotorAlignmentValue.Opposed);
+
+  int desiredShootSpeed = Constants.ShooterConstants.shooterDesiredRPS; 
+  int desiredTowerSpeed = Constants.ShooterConstants.towerDesiredRPS; 
+  double hotdogSpeed = Constants.IntakeConstants.HotDogSpeed;
   double currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
 
   CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
@@ -71,49 +79,54 @@ public class Shooter extends SubsystemBase {
 
   VelocityVoltage m_velocityVoltage = new VelocityVoltage(0).withSlot(0);
 
-  double hoodSpeed = 0.25;
-
-  private final Intake intakeSubsystem;
-
-  public Shooter(Intake intakeSubsystem) {
+  public Shooter() {
     shooterMotor.getConfigurator().apply(toConfigure);
     shooterMotor.setNeutralMode(NeutralModeValue.Coast);
     shooterMotor2.getConfigurator().apply(toConfigure);
     shooterMotor2.setNeutralMode(NeutralModeValue.Coast);
+    shooterMotor2.setControl(thign);
 
-    this.intakeSubsystem = intakeSubsystem;
   }
 
-  public Command shoot(boolean reverse){
+  public Command shoot(){
     return run(()->{
-      var desiredSpeed = Constants.ShooterConstants.shooterDesiredRPS;
-      if(reverse){
-        desiredSpeed = -desiredSpeed;
+      currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();   
+
+      var request = new VelocityVoltage(0).withSlot(0);
+      shooterMotor.setControl(request.withVelocity(desiredShootSpeed).withFeedForward(0.5));
+
+      if (currentRPS_Shooter >= desiredShootSpeed * 0.75) {
+        towerMotor.set(desiredTowerSpeed * -1);
+        hotdogMotor.set(hotdogSpeed);
       }
+    });
+  } 
 
-      currentRPS_Shooter = shooterMotor2.getVelocity().getValueAsDouble();
-      System.out.println(currentRPS_Shooter);
-             
-      shooterMotor.setControl(m_velocityVoltage.withVelocity(desiredSpeed).withFeedForward(0.5));
-      shooterMotor2.setControl(m_velocityVoltage.withVelocity(-desiredSpeed).withFeedForward(0.5));
+  public Command reverseShoot(){
+    return run(()->{
+      currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
+      var reverseShooterSpeed = desiredShootSpeed * -1;       
 
-      if (currentRPS_Shooter >= (Constants.ShooterConstants.shooterDesiredRPS * 0.75)) {
-        towerMotor.set(Constants.ShooterConstants.towerDesiredRPS);
-        intakeSubsystem.moveHotDog(reverse);
+      var request = new VelocityVoltage(0).withSlot(0);
+      shooterMotor.setControl(request.withVelocity(reverseShooterSpeed).withFeedForward(0.5));
+
+      if (currentRPS_Shooter <= desiredShootSpeed * 0.75) {
+        towerMotor.set(desiredTowerSpeed);
+        hotdogMotor.set(hotdogSpeed * -1);
       }
     });
   } 
 
   public Command stopShooter(){
+  
     return run(()->{
       var request = new VelocityVoltage(0).withSlot(0);
-      shooterMotor.setControl(request.withVelocity(0));
-      shooterMotor2.setControl(request.withVelocity(0));     
+      shooterMotor.setControl(request.withVelocity(0).withFeedForward(0.5));
       towerMotor.set(0);
-      intakeSubsystem.stopHotDog();
+      hotdogMotor.set(0);
     });
   } 
-
+  
   public Command testTower(boolean reverse){
     return run(()->{
       var desiredSpeed = Constants.ShooterConstants.shooterDesiredRPS;
@@ -121,12 +134,6 @@ public class Shooter extends SubsystemBase {
         desiredSpeed = -desiredSpeed;
       }
       towerMotor.set(desiredSpeed);    
-    });
-  } 
-
-  public Command stopTower(){
-    return run(()->{
-      towerMotor.set(0);    
     });
   } 
 }

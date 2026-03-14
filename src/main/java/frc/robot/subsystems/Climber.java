@@ -8,37 +8,22 @@ import frc.robot.Constants;
 
 public class Climber extends SubsystemBase{
 
-    SparkMax climbMax = new SparkMax(Constants.ClimberConstants.ClimbMotorID, MotorType.kBrushless);
+    SparkMax climberMotor = new SparkMax(Constants.ClimberConstants.ClimbMotorID, MotorType.kBrushless);
     double climbSpeed = Constants.ClimberConstants.ClimbSpeed;
-
-    public Command Climb(boolean reverse){
-      return run(()->{
-        double desiredSpeed = climbSpeed;
-        if(reverse){
-            desiredSpeed = -desiredSpeed;
-        }
-        climbMax.set(desiredSpeed);
-      });
-    } 
-
 
     public Command ClimbUp(){
         return run(()->{
-          climbMax.set(climbSpeed);
-          System.out.println("Hi" + climbSpeed);
+          climberMotor.set(climbSpeed);
         });
     } 
     public Command ClimbDown(){
         return run(()->{
-          climbMax.set(-climbSpeed);
-          System.out.println("down" + climbSpeed);
+          climberMotor.set(climbSpeed * -1);
         });
     } 
     public Command ClimbStop(){
         return run(()->{
-                    //System.out.println("stop" + climbSpeed);
-
-          climbMax.set(0);
+          climberMotor.set(0);
         });
     } 
 }
