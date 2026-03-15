@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
@@ -40,7 +41,7 @@ public class RobotContainer {
     private final Hood hood = new Hood();
     private final Intake intake = new Intake();
     private final IntakeFlipper intakeFlipper = new IntakeFlipper();
-    private final Shooter shooter = new Shooter(intake);
+    private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -91,7 +92,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        driverXbox.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        //driverXbox.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
         driverXbox.y().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-driverXbox.getLeftY(), -driverXbox.getLeftX()))
@@ -101,12 +102,12 @@ public class RobotContainer {
         var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
         driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
 
-        driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
+        /*driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
         );
         driverXbox.povDown().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
+        );*/
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -135,7 +136,7 @@ public class RobotContainer {
       //led.ColorChange(led.HubTimer()).repeatedly();
     }
 
-    void TurretSubsystem() {
+    /*void TurretSubsystem() {
       //shooter flywheels
       //tower motor
       //Hot dogrollers
@@ -147,9 +148,9 @@ public class RobotContainer {
       operatorXbox.leftBumper()
         .onTrue(hood.MoveHood(operatorXbox.b().getAsBoolean()))
         .onFalse(hood.StopHood());
-    }
+    }*/
 
-    void IntakeSubsystem() {
+    /*void IntakeSubsystem() {
       //Intake Roller Motor
       operatorXbox.leftTrigger()
         .whileTrue(intake.moveIntake(operatorXbox.b().getAsBoolean()))
@@ -163,11 +164,10 @@ public class RobotContainer {
         .onFalse(intakeFlipper.MoveToDesiredState());
 
       operatorXbox.a()
-        .onTrue(intake.moveHotDog(operatorXbox.b().getAsBoolean()))
-        .onFalse(intake.stopHotDog());
-    }
+        .onTrue(intake.moveHotDog(operatorXbox.b().getAsBoolean()));
+    }*/
   
-    void ClimberSubsystem() {
+    /*void ClimberSubsystem() {
       // up on the D-Pad goes up
       operatorXbox.povUp()
         .onTrue(climber.ClimbUp())
@@ -177,32 +177,114 @@ public class RobotContainer {
       operatorXbox.povDown()
         .onTrue(climber.ClimbDown())
         .whileFalse(climber.ClimbStop());
+    }*/
+
+
+    void controlMapping(){
+      //DRIVER CONTROLS
+      //
+      //ROBOT RELATIVE
+        driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
+            forwardStraight.withVelocityX(0.5).withVelocityY(0))
+        );
+        driverXbox.povDown().whileTrue(drivetrain.applyRequest(() ->
+            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+        );
+        driverXbox.povRight().whileTrue(drivetrain.applyRequest(() ->
+            forwardStraight.withVelocityY(0.5).withVelocityX(0))
+        );
+        driverXbox.povLeft().whileTrue(drivetrain.applyRequest(() ->
+            forwardStraight.withVelocityY(-0.5).withVelocityX(0))
+        );
+
+      //GYRO RESET 
+        driverXbox.y()
+          .onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+      //LOCK DRIVEBASE
+        driverXbox.a()
+          .whileTrue(drivetrain.applyRequest(() -> brake));
+
+      //FAST MODE
+      //SLOW MODE
+      //APRIL TAG ALIGN
+
+      //PATHPLANNER ON THE FLY
+        var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
+        driverXbox.y().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
+    
+      
+      
+      //OPERATOR CONTROLS
+      //
+      Trigger reverseIntakeButton = new Trigger(operatorXbox.leftTrigger().and(operatorXbox.b()));
+      Trigger reverseShootButton = new Trigger(operatorXbox.rightTrigger().and(operatorXbox.b()));
+
+      //INTAKE
+      operatorXbox.leftTrigger()
+        .whileTrue(intake.intakeIn())
+        .whileFalse(intake.intakeStop());
+      //OUTTAKE
+      reverseIntakeButton
+        .whileTrue(intake.intakeOut())
+        .whileFalse(intake.intakeStop());
+      //FLIP INTAKE
+      operatorXbox.x().debounce(0.2)
+        .onTrue(intakeFlipper.SwapDesiredState())
+        .onFalse(intakeFlipper.MoveToDesiredState());
+
+      //SHOOT
+      operatorXbox.rightTrigger()
+        .whileTrue(shooter.shoot())
+        .whileFalse(shooter.stopShooter());
+      //REVERSE SHOOT
+      reverseShootButton
+        .onTrue(shooter.reverseShoot())
+        .whileFalse(shooter.stopShooter());
+
+      //HOOD UP
+      operatorXbox.rightBumper()
+        .whileTrue(hood.MoveHoodIn())
+        .whileFalse(hood.StopHood());
+      //HOOD DOWN
+      operatorXbox.leftBumper()
+        .whileTrue(hood.MoveHoodOut())
+        .whileFalse(hood.StopHood());
+
+      //CLIMB UP
+      operatorXbox.povUp()
+        .onTrue(climber.ClimbUp())
+        .whileFalse(climber.ClimbStop());
+      //CLIMB DOWN
+      operatorXbox.povDown()
+        .onTrue(climber.ClimbDown())
+        .whileFalse(climber.ClimbStop());
     }
+
 
     void testControls() {
       //Shooter Motors
       operatorXbox.rightTrigger()
-        .onTrue(shooter.shoot(operatorXbox.b().getAsBoolean()))
+        .onTrue(shooter.shoot())
         .onFalse(shooter.stopShooter());
       
       //Tower Motor
       operatorXbox.leftTrigger()
         .onTrue(shooter.testTower(operatorXbox.b().getAsBoolean()))
-        .onFalse(shooter.stopTower());
+        .onFalse(shooter.stopShooter());
 
       //Hot dog Motor
       operatorXbox.rightBumper()
-        .onTrue(intake.moveHotDog(operatorXbox.b().getAsBoolean()))
-        .onFalse(intake.stopHotDog());
+        .onTrue(intake.hotdogTest());
 
       //Hood Motor
       operatorXbox.leftBumper()
-        .onTrue(hood.MoveHood(operatorXbox.b().getAsBoolean()))
+        .onTrue(hood.MoveHoodIn())
         .onFalse(hood.StopHood());
 
       //Intake Roller Motor
       operatorXbox.y()
-        .onTrue(intake.moveIntake(operatorXbox.b().getAsBoolean()))
+        .onTrue(intake.intakeIn())
         .onFalse(intake.intakeStop());
 
       //Intake Flipper Motor
@@ -212,7 +294,7 @@ public class RobotContainer {
 
       //Climber Motor
       operatorXbox.a()
-        .onTrue(climber.Climb(operatorXbox.b().getAsBoolean()))
+        .onTrue(climber.ClimbUp())
         .onFalse(climber.ClimbStop());
     }
 }

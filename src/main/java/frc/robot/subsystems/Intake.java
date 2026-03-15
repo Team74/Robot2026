@@ -27,58 +27,36 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase{
   SparkMax intakeMax = new SparkMax(Constants.IntakeConstants.FeederMotorID, MotorType.kBrushless);
-  SparkMax HotdogmotorID = new SparkMax(Constants.IntakeConstants.HotdogmotorID,MotorType.kBrushless);
+  SparkMax hotdogMotor = new SparkMax(Constants.IntakeConstants.HotdogmotorID,MotorType.kBrushless);
 
-  double intakeSpeed = 0.7;
+  double intakeDesiredSpeed = Constants.IntakeConstants.intakeSpeed;
+  double hotdogSpeed = Constants.IntakeConstants.HotDogSpeed;
 
-  public Command moveIntake(boolean reverse){
-    return run(()->{
-      double desiredSpeed = intakeSpeed;
-      if(reverse){
-          desiredSpeed = -desiredSpeed;
-      }
-      intakeMax.set(desiredSpeed);
-
-      System.out.println("moveIntake: " + desiredSpeed);
-    });
-  } 
 
   public Command intakeIn(){
     return run(()->{
-      intakeMax.set(intakeSpeed);
+      intakeMax.set(intakeDesiredSpeed);
+      hotdogMotor.set(hotdogSpeed * 0.5);
     });
   } 
 
   public Command intakeOut(){
     return run(()->{
-                  HotdogmotorID.set(1);
-
-      intakeMax.set(-intakeSpeed);
+      intakeMax.set(intakeDesiredSpeed * -1);
+      hotdogMotor.set(hotdogSpeed * -0.5);
     });
   } 
 
   public Command intakeStop(){
     return run(()->{
-                  HotdogmotorID.set(0);
-
+      hotdogMotor.set(0);
       intakeMax.set(0);
     });
   } 
 
-  public Command moveHotDog(boolean reverse){
+  public Command hotdogTest(){
     return run(()->{
-      double desiredSpeed = 1;
-      if(reverse){
-        desiredSpeed = -desiredSpeed;
-      }
-      
-      HotdogmotorID.set(desiredSpeed);
+      hotdogMotor.set(hotdogSpeed);
     });
-  } 
-
-  public Command stopHotDog(){
-    return run(()->{
-      HotdogmotorID.set(0);
-    });
-  } 
+  }
 }
