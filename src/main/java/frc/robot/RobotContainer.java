@@ -99,13 +99,13 @@ public class RobotContainer {
         }
         //driverXbox.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
-        driverXbox.b().whileTrue(drivetrain.applyRequest(() ->
+        driverXbox.y().whileTrue(drivetrain.applyRequest(() ->
             point.withModuleDirection(new Rotation2d(-driverXbox.getLeftY(), -driverXbox.getLeftX()))
         ));
 
         //Lets test driving to a testPOI.....
         var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
-        driverXbox.y().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
+        driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
 
         /*driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
@@ -120,6 +120,13 @@ public class RobotContainer {
         // driverXbox.back().and(driverXbox.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         // driverXbox.start().and(driverXbox.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         // driverXbox.start().and(driverXbox.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
+        // Reset the field-centric heading on left bumper press.
+        driverXbox.y().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+        TurretSubsystem();
+        IntakeSubsystem();
+        ClimberSubsystem();
         LEDs();
 
         drivetrain.registerTelemetry(logger::telemeterize);
