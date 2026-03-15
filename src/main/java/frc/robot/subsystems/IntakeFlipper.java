@@ -45,7 +45,7 @@ public class IntakeFlipper extends SubsystemBase{
   DigitalInput m_toplimitswitch = new DigitalInput(0);
   DigitalInput m_bottomlimitswitch = new DigitalInput(1);
 
-  double intakeMoverSpeedConstant = Constants.IntakeConstants.IntakeMoverSpeed;
+  double intakeMoverSpeedConstant = Constants.IntakeConstants.IntakeMoverSpeed * -1;
   double desiredintakeMoverSpeed = 0;
 
   public Command SwapDesiredState(){

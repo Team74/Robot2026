@@ -26,12 +26,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase{
-  SparkMax intakeMax = new SparkMax(Constants.IntakeConstants.FeederMotorID, MotorType.kBrushless);
-  SparkMax hotdogMotor = new SparkMax(Constants.IntakeConstants.HotdogmotorID,MotorType.kBrushless);
+  Shooter shooter;
+  SparkMax intakeMax = new SparkMax(Constants.IntakeConstants.FeederMotorID, MotorType.kBrushed);
+  SparkMax hotdogMotor;
 
   double intakeDesiredSpeed = Constants.IntakeConstants.intakeSpeed;
   double hotdogSpeed = Constants.IntakeConstants.HotDogSpeed;
 
+  public Intake(Shooter _shooter){
+    this.shooter = _shooter;
+    hotdogMotor = _shooter.hotdogMotor;
+  }
 
   public Command intakeIn(){
     return run(()->{

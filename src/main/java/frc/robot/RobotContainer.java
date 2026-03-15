@@ -39,16 +39,16 @@ import frc.robot.subsystems.Shooter;
 public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final Hood hood = new Hood();
-    private final Intake intake = new Intake();
     private final IntakeFlipper intakeFlipper = new IntakeFlipper();
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
+    private final Intake intake = new Intake(shooter);
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-                                                        .withDeadband(0)
-                                                        .withRotationalDeadband(0)
-                                                        .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+      .withDeadband(0)
+      .withRotationalDeadband(0)
+      .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -92,6 +92,11 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
+        if (DriverStation.isTest() == true) {
+          testControls();
+        } else {
+          controlMapping();
+        }
         //driverXbox.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
         driverXbox.b().whileTrue(drivetrain.applyRequest(() ->
@@ -198,8 +203,10 @@ public class RobotContainer {
         driverXbox.a()
           .whileTrue(drivetrain.applyRequest(() -> brake));
 
-      //FAST MODE
       //SLOW MODE
+        //driverXbox.leftBumper().whileTrue(MathUtil.clamp(0, 0, 0));
+      
+
       //APRIL TAG ALIGN
 
       //PATHPLANNER ON THE FLY
@@ -268,7 +275,8 @@ public class RobotContainer {
 
       //Hot dog Motor
       operatorXbox.rightBumper()
-        .onTrue(intake.hotdogTest());
+        .onTrue(intake.hotdogTest())
+        .onFalse(intake.intakeStop());
 
       //Hood Motor
       operatorXbox.leftBumper()
@@ -283,7 +291,7 @@ public class RobotContainer {
       //Intake Flipper Motor
       operatorXbox.x()
         .onTrue(intakeFlipper.SwapDesiredState())
-        .onFalse(intakeFlipper.MoveToDesiredState());
+        .onFalse(intakeFlipper.MoveToDesiredState());                            
 
       //Climber Motor
       operatorXbox.a()
