@@ -95,7 +95,7 @@ public class Shooter extends SubsystemBase {
       var request = new VelocityVoltage(0).withSlot(0);
       shooterMotor.setControl(request.withVelocity(desiredShootSpeed).withFeedForward(0.5));
 
-      if (currentRPS_Shooter >= desiredShootSpeed * 0.75) {
+      if (currentRPS_Shooter >= desiredShootSpeed * 0.9) {
         towerMotor.set(desiredTowerSpeed * -1);
         hotdogMotor.set(hotdogSpeed);
       }
