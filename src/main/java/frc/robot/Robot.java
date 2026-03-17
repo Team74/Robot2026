@@ -49,9 +49,9 @@ public class Robot extends TimedRobot {
             LimelightHelpers.SetRobotOrientation(Constants.VisionConstants.limelightName, headingDeg, 0, 0, 0, 0, 0);
             
             LimelightHelpers.setCameraPose_RobotSpace(Constants.VisionConstants.limelightName,
-                -0.33,    // Forward offset (meters)
-                0.11,    // Side offset (meters)
-                0.2921,    // Height offset (meters)
+                -0.32385,    // Forward offset (meters) or y (+y is forward)
+                -0.2159,    // Side offset (meters) or x (+x is right)
+                0.2492,    // Height offset (meters) or z (+z is up)
                 0.0,    // Roll (degrees)
                 25.0,   // Pitch (degrees)
                 180     // Yaw (degrees)
@@ -64,9 +64,9 @@ public class Robot extends TimedRobot {
         }
     }
 
-    //13 back
-    //11.5 up
-    //4.5 from left
+    // -8.5 x (in) -> -0.2159 (m)
+    // -12.75 y (in) -> -0.32385 (m)
+    //  9.8125 z (in) -> 0.2492 (m)
 
     @Override
     public void disabledInit() {}

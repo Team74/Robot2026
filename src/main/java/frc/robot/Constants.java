@@ -53,7 +53,7 @@ public final class Constants
     public static final int ShooterMotorID = 6;
     public static final int ShooterMotor2ID = 7;
     public static final double hoodSpeed = .25;
-    public static int shooterDesiredRPS = 40;
+    public static int shooterDesiredRPS = 60;
     public static int towerDesiredRPS = -90;
     public static double KS = 0.05;
     public static double KV = 0.12;
@@ -74,9 +74,9 @@ public final class Constants
   public static class VisionConstants {
     public static final String limelightName = "limelight-bot";
 
-    public static final double testPoiX = 2.901;
-    public static final double testPoiY = 3.976;
-    public static final double testPoiAngle = Math.toRadians(-81.46);
+    public static final double testPoiX = 2.33;
+    public static final double testPoiY = 4;
+    public static final double testPoiAngle = Math.toRadians(0);
 
   }
 }
