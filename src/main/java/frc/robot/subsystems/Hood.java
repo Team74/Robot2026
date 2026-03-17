@@ -15,7 +15,7 @@ import com.revrobotics.spark.config.LimitSwitchConfig;
 import com.revrobotics.spark.config.LimitSwitchConfigAccessor;
 
 public class Hood extends SubsystemBase {
-    SparkMax hood = new SparkMax(Constants.ShooterConstants.HoodMotorID,MotorType.kBrushless);
+    SparkMax hood = new SparkMax(Constants.ShooterConstants.HoodMotorID,MotorType.kBrushed);
     double hoodSpeed = Constants.ShooterConstants.hoodSpeed;
    
     DigitalInput magSwitch = new DigitalInput(2);
@@ -29,10 +29,10 @@ public class Hood extends SubsystemBase {
     public Command MoveHoodOut(){
         return run(()->{
             hood.set(hoodSpeed);
-            if (magSwitch.get() == false){
-                hood.set(0);
-                System.out.println("SWITCHED");
-            }
+            // if (magSwitch.get() == false){
+            //     hood.set(0);
+            //     System.out.println("SWITCHED");
+            // }
         });
     }
 
