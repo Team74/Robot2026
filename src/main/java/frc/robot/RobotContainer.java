@@ -37,6 +37,7 @@ import frc.robot.subsystems.IntakeFlipper;
 import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
+
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final Hood hood = new Hood();
     private final IntakeFlipper intakeFlipper = new IntakeFlipper();
@@ -224,6 +225,11 @@ public class RobotContainer {
       
       //OPERATOR CONTROLS
       //
+      operatorXbox.a().onTrue((hood.TestStringPotentiometer())).whileFalse(hood.StopHood());
+
+      Trigger hoodUpTrigger = new Trigger(operatorXbox.rightBumper());
+      Trigger hoodDownTrigger = new Trigger(operatorXbox.leftBumper());
+
       Trigger reverseIntakeButton = new Trigger(operatorXbox.leftTrigger().and(operatorXbox.b()));
       Trigger reverseShootButton = new Trigger(operatorXbox.rightTrigger().and(operatorXbox.b()));
 
@@ -236,7 +242,7 @@ public class RobotContainer {
         .whileTrue(intake.intakeOut())
         .whileFalse(intake.intakeStop());
       //FLIP INTAKE
-      operatorXbox.x().debounce(0.2)
+      operatorXbox.x().debounce(0.009)
         .onTrue(intakeFlipper.SwapDesiredState())
         .onFalse(intakeFlipper.MoveToDesiredState());
 
@@ -251,11 +257,11 @@ public class RobotContainer {
 
       //HOOD UP
       operatorXbox.rightBumper()
-        .whileTrue(hood.MoveHoodIn())
+        .whileTrue(hood.MoveHoodUp())
         .whileFalse(hood.StopHood());
       //HOOD DOWN
       operatorXbox.leftBumper()
-        .whileTrue(hood.MoveHoodOut())
+        .whileTrue(hood.MoveHoodDown())
         .whileFalse(hood.StopHood());
 
       //CLIMB UP
@@ -287,7 +293,7 @@ public class RobotContainer {
 
       //Hood Motor
       operatorXbox.leftBumper()
-        .onTrue(hood.MoveHoodIn())
+        .onTrue(hood.MoveHoodUp())
         .onFalse(hood.StopHood());
 
       //Intake Roller Motor

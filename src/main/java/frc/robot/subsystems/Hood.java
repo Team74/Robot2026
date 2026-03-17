@@ -6,6 +6,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,29 +17,51 @@ import com.revrobotics.spark.config.LimitSwitchConfigAccessor;
 
 public class Hood extends SubsystemBase {
     SparkMax hood = new SparkMax(Constants.ShooterConstants.HoodMotorID,MotorType.kBrushed);
+    
+    //AnalogInput stringPotInput = new AnalogInput(0);
+    AnalogPotentiometer stringPot = new AnalogPotentiometer(0, 45, 0);
+    
+    
     double hoodSpeed = Constants.ShooterConstants.hoodSpeed;
-   
-    DigitalInput magSwitch = new DigitalInput(2);
+    double stringPotValue = stringPot.get();
 
-    public Command MoveHoodIn(){
-        return run(()->{
-            hood.set(hoodSpeed * -1);
+    @Override
+    public void periodic() {
+      
+    }
+
+    public Command TestStringPotentiometer(){
+          return run(()->{
+            stringPotValue = stringPot.get();
+            System.out.println(stringPotValue);
         });
     }
 
-    public Command MoveHoodOut(){
+    public Command MoveHoodUp(){
         return run(()->{
+
+            if (stringPotValue >= 10.29) {
+                hoodSpeed = 0;
+            } 
+
+            hood.set(hoodSpeed * -1);
+            
+        });
+    }
+
+    public Command MoveHoodDown(){
+        return run(()->{
+            if (stringPotValue <= 5.19) {
+               hoodSpeed = 0;
+            }
             hood.set(hoodSpeed);
-            // if (magSwitch.get() == false){
-            //     hood.set(0);
-            //     System.out.println("SWITCHED");
-            // }
         });
     }
 
     public Command StopHood(){
         return run(()->{
             hood.set(0);
+            hoodSpeed = Constants.ShooterConstants.hoodSpeed;
         });
     }
 
