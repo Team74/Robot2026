@@ -124,10 +124,10 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         driverXbox.y().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        TurretSubsystem();
-        IntakeSubsystem();
-        ClimberSubsystem();
-        LEDs();
+        // TurretSubsystem();
+        // IntakeSubsystem();
+        // ClimberSubsystem();
+        // LEDs();
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
