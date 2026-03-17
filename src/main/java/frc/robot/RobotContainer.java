@@ -99,9 +99,9 @@ public class RobotContainer {
         }
         //driverXbox.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
-        driverXbox.y().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-driverXbox.getLeftY(), -driverXbox.getLeftX()))
-        ));
+        // driverXbox.y().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-driverXbox.getLeftY(), -driverXbox.getLeftX()))
+        // ));
 
         //Lets test driving to a testPOI.....
         var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
@@ -121,13 +121,13 @@ public class RobotContainer {
         // driverXbox.start().and(driverXbox.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         // driverXbox.start().and(driverXbox.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
-        // Reset the field-centric heading on left bumper press.
-        driverXbox.y().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        // // Reset the field-centric heading on left bumper press.
+        // driverXbox.y().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        TurretSubsystem();
-        IntakeSubsystem();
-        ClimberSubsystem();
-        LEDs();
+        // TurretSubsystem();
+        // IntakeSubsystem();
+        // ClimberSubsystem();
+        // LEDs();
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
@@ -217,8 +217,8 @@ public class RobotContainer {
       //APRIL TAG ALIGN
 
       //PATHPLANNER ON THE FLY
-        var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
-        driverXbox.y().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
+        //var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
+       //driverXbox.y().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
     
       
       

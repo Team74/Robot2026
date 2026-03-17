@@ -34,8 +34,8 @@ public final class Constants
     public static final int MoverMotorID = 34;
     public static final int FeederMotorID = 33;
     public static final double IntakeMoverSpeed = 0.1;
-    public static final double HotDogSpeed = 0.75;
-    public static final double intakeSpeed = -0.7;
+    public static final double HotDogSpeed = 1;
+    public static final double intakeSpeed = -1;
   }
 
   public static class OperatorConstants
@@ -52,9 +52,9 @@ public final class Constants
     public static final int TowerMotorID = 3;
     public static final int ShooterMotorID = 6;
     public static final int ShooterMotor2ID = 7;
-    public static final double hoodSpeed = 0.25;
-    public static int shooterDesiredRPS = 90;
-    public static int towerDesiredRPS = 90;
+    public static final double hoodSpeed = .25;
+    public static int shooterDesiredRPS = 40;
+    public static int towerDesiredRPS = -90;
     public static double KS = 0.05;
     public static double KV = 0.12;
     public static double KP = 0.11;
