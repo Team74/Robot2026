@@ -6,6 +6,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,7 +19,14 @@ public class Hood extends SubsystemBase {
     SparkMax hood = new SparkMax(Constants.ShooterConstants.HoodMotorID,MotorType.kBrushed);
     double hoodSpeed = Constants.ShooterConstants.hoodSpeed;
    
-    DigitalInput magSwitch = new DigitalInput(2);
+    AnalogPotentiometer stringPot = new AnalogPotentiometer(0);
+    double stringPotValue = stringPot.get();
+
+    public Command TestStringPotentiometer(){
+          return run(()->{
+            System.out.println(stringPotValue);
+        });
+    }
 
     public Command MoveHoodIn(){
         return run(()->{

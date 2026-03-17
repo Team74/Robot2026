@@ -224,6 +224,8 @@ public class RobotContainer {
       
       //OPERATOR CONTROLS
       //
+      operatorXbox.a().onTrue((hood.TestStringPotentiometer()));
+      
       Trigger reverseIntakeButton = new Trigger(operatorXbox.leftTrigger().and(operatorXbox.b()));
       Trigger reverseShootButton = new Trigger(operatorXbox.rightTrigger().and(operatorXbox.b()));
 
