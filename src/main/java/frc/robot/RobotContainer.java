@@ -10,6 +10,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
 import edu.wpi.first.math.MathUtil;
@@ -35,6 +36,8 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeFlipper;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.IntakeFlipper.eCurrentState;
+import frc.robot.subsystems.IntakeFlipper.eDesiredEndState;
 
 public class RobotContainer {
 
@@ -66,10 +69,19 @@ public class RobotContainer {
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
+    
+
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
-
+        NamedCommands.registerCommand("shoot", shooter.shoot());
+        // swaps state then moves until desired state is reached
+        NamedCommands.registerCommand("intake Swap", intakeFlipper.SwapDesiredState()
+                                                                  .andThen(intakeFlipper.MoveToDesiredState()
+                                                                  .until(() -> intakeFlipper.currentState == eCurrentState.OUT_STOPPED && intakeFlipper.currentDesiredState == eDesiredEndState.OUT 
+                                                                              |intakeFlipper.currentState == eCurrentState.IN_STOPPED && intakeFlipper.currentDesiredState == eDesiredEndState.IN)));
+        NamedCommands.registerCommand("intake", intake.intakeIn());
+        
         configureBindings();
 
         // Warmup PathPlanner to avoid Java pauses
@@ -108,7 +120,7 @@ public class RobotContainer {
 
         //Lets test driving to a testPOI.....
         var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
-        driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
+        driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,MetersPerSecond.of(0)));
 
         /*driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
@@ -133,6 +145,9 @@ public class RobotContainer {
         // LEDs();
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        SmartDashboard.putNumber("ShooterRPS", shooter.currentRPS_Shooter);
+
     }
 
     public Command getAutonomousCommand() {
@@ -199,10 +214,10 @@ public class RobotContainer {
             forwardStraight.withVelocityX(-0.5).withVelocityY(0))
         );
         driverXbox.povRight().whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityY(0.5).withVelocityX(0))
+            forwardStraight.withVelocityY(-0.5).withVelocityX(0))
         );
         driverXbox.povLeft().whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityY(-0.5).withVelocityX(0))
+            forwardStraight.withVelocityY(0.5).withVelocityX(0))
         );
 
       //GYRO RESET 
