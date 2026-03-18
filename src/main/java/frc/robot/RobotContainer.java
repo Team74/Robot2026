@@ -38,6 +38,8 @@ import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
 
+  
+
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final Hood hood = new Hood();
     private final IntakeFlipper intakeFlipper = new IntakeFlipper();
@@ -227,8 +229,7 @@ public class RobotContainer {
       //
       operatorXbox.a().onTrue((hood.TestStringPotentiometer())).whileFalse(hood.StopHood());
 
-      Trigger hoodUpTrigger = new Trigger(operatorXbox.rightBumper());
-      Trigger hoodDownTrigger = new Trigger(operatorXbox.leftBumper());
+      
 
       Trigger reverseIntakeButton = new Trigger(operatorXbox.leftTrigger().and(operatorXbox.b()));
       Trigger reverseShootButton = new Trigger(operatorXbox.rightTrigger().and(operatorXbox.b()));

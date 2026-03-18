@@ -30,10 +30,9 @@ public class Hood extends SubsystemBase {
       
     }
 
-    public Command TestStringPotentiometer(){
+    public Command JumpToTarget(){
           return run(()->{
-            stringPotValue = stringPot.get();
-            System.out.println(stringPotValue);
+            var target_Lowest =
         });
     }
 
