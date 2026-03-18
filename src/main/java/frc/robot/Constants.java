@@ -74,8 +74,8 @@ public final class Constants
   public static class VisionConstants {
     public static final String limelightName = "limelight-bot";
 
-    public static final double testPoiX = 2.33;
-    public static final double testPoiY = 4;
+    public static final double testPoiX = 2.33; //14.2
+    public static final double testPoiY = 4; //4
     public static final double testPoiAngle = Math.toRadians(180);
 
   }

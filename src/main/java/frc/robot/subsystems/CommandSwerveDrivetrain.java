@@ -15,10 +15,12 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -292,10 +294,30 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
+
+        //rotateToPOI();
     }
     LinearVelocity stop = MetersPerSecond.of(0);
     public Command path_find_to(Pose2d pose, LinearVelocity endVelocity){
-        return AutoBuilder.pathfindToPose(pose, TunerConstants.oTF_Constraints, endVelocity);
+        var  constraints = new PathConstraints(2, 2, Math.toRadians(270), Math.toRadians(360));   
+
+        return AutoBuilder.pathfindToPose(pose
+        , constraints
+        , endVelocity);
+    }
+
+    public void rotateToPOI(){
+        var  constraints = new PathConstraints(2, 2, Math.toRadians(270), Math.toRadians(360));
+
+        var hubTarget = new Pose2d(4.612, 4.0, new Rotation2d(0));
+
+        var currentPose = getState().Pose;
+
+        var sdcsc = currentPose.minus(hubTarget);
+
+        SmartDashboard.putNumber("Target", sdcsc.getRotation().getDegrees());
+
+
     }
 
     private void startSimThread() {
