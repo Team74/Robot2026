@@ -106,7 +106,7 @@ public class RobotContainer {
 
         //Lets test driving to a testPOI.....
         var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
-        driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
+        driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,MetersPerSecond.of(0)));
 
         /*driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
@@ -131,6 +131,9 @@ public class RobotContainer {
         // LEDs();
 
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        SmartDashboard.putNumber("ShooterRPS", shooter.currentRPS_Shooter);
+
     }
 
     public Command getAutonomousCommand() {

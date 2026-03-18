@@ -51,7 +51,7 @@ public class Hood extends SubsystemBase {
 
     public Command MoveHoodDown(){
         return run(()->{
-            if (stringPotValue <= 5.19) {
+            if (stringPotValue <= 4.85) {
                hoodSpeed = 0;
             }
             hood.set(hoodSpeed);

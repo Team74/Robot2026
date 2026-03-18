@@ -14,7 +14,7 @@ import frc.robot.generated.TunerConstants;
 
 public final class Constants
 {
-  public static final double MAX_SPEED = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+  public static final double MAX_SPEED = 0.5 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
   public static final double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
 
@@ -35,7 +35,7 @@ public final class Constants
     public static final int FeederMotorID = 33;
     public static final double IntakeMoverSpeed = 0.1;
     public static final double HotDogSpeed = 1;
-    public static final double intakeSpeed = -1;
+    public static final double intakeSpeed = -0.5;
   }
 
   public static class OperatorConstants
@@ -53,7 +53,7 @@ public final class Constants
     public static final int ShooterMotorID = 6;
     public static final int ShooterMotor2ID = 7;
     public static final double hoodSpeed = .25;
-    public static int shooterDesiredRPS = 60;
+    public static int shooterDesiredRPS = 45;
     public static int towerDesiredRPS = -90;
     public static double KS = 0.05;
     public static double KV = 0.12;
@@ -76,7 +76,7 @@ public final class Constants
 
     public static final double testPoiX = 2.33;
     public static final double testPoiY = 4;
-    public static final double testPoiAngle = Math.toRadians(0);
+    public static final double testPoiAngle = Math.toRadians(180);
 
   }
 }

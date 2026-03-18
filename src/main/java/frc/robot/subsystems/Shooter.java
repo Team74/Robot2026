@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -58,7 +59,7 @@ public class Shooter extends SubsystemBase {
   int desiredShootSpeed = Constants.ShooterConstants.shooterDesiredRPS; 
   int desiredTowerSpeed = Constants.ShooterConstants.towerDesiredRPS; 
   double hotdogSpeed = Constants.IntakeConstants.HotDogSpeed;
-  double currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
+  public double currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
 
   CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
     .withSupplyCurrentLimit(Constants.ShooterConstants.SupplyCurrentLimit)
@@ -92,12 +93,17 @@ public class Shooter extends SubsystemBase {
     return run(()->{
       currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();   
 
+      SmartDashboard.putNumber("ShooterRPS", currentRPS_Shooter);
+
       var request = new VelocityVoltage(0).withSlot(0);
       shooterMotor.setControl(request.withVelocity(desiredShootSpeed).withFeedForward(0.5));
 
-      if (currentRPS_Shooter >= desiredShootSpeed * 0.9) {
+      if (currentRPS_Shooter >= desiredShootSpeed * 0.9 && (currentRPS_Shooter <= desiredShootSpeed*1.1) ) {
         towerMotor.set(desiredTowerSpeed * -1);
         hotdogMotor.set(hotdogSpeed);
+      } else {
+        towerMotor.set(0);
+        hotdogMotor.set(0);
       }
     });
   } 
