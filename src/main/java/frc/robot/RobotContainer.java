@@ -212,10 +212,10 @@ public class RobotContainer {
             forwardStraight.withVelocityX(-0.5).withVelocityY(0))
         );
         driverXbox.povRight().whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityY(0.5).withVelocityX(0))
+            forwardStraight.withVelocityY(-0.5).withVelocityX(0))
         );
         driverXbox.povLeft().whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityY(-0.5).withVelocityX(0))
+            forwardStraight.withVelocityY(0.5).withVelocityX(0))
         );
 
       //GYRO RESET 
