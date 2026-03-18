@@ -242,13 +242,24 @@ public class RobotContainer {
       
       //OPERATOR CONTROLS
       //
-      operatorXbox.a().onTrue((hood.TestStringPotentiometer())).whileFalse(hood.StopHood());
+      //operatorXbox.a().onTrue((hood.TestStringPotentiometer())).whileFalse(hood.StopHood());
 
       
 
       Trigger reverseIntakeButton = new Trigger(operatorXbox.leftTrigger().and(operatorXbox.b()));
       Trigger reverseShootButton = new Trigger(operatorXbox.rightTrigger().and(operatorXbox.b()));
+      Trigger hoodJumpToTargetButton = new Trigger(operatorXbox.rightBumper().and(operatorXbox.rightTrigger()));
+      Trigger testJumpToTargetButton = new Trigger(operatorXbox.leftBumper().and(operatorXbox.leftTrigger()));
 
+      hoodJumpToTargetButton
+        .onTrue(hood.SetTarget())
+        .whileFalse(hood.StopHood());
+
+      operatorXbox.a().onTrue(hood.Print()).onFalse(hood.StopHood());
+
+      testJumpToTargetButton
+        .onTrue(hood.JumpToTarget())
+        .whileFalse(hood.StopHood());
       //INTAKE
       operatorXbox.leftTrigger()
         .whileTrue(intake.intakeIn())
