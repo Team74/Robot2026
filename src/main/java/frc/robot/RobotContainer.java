@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.List;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -17,8 +19,13 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,6 +45,10 @@ import frc.robot.subsystems.IntakeFlipper;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeFlipper.eCurrentState;
 import frc.robot.subsystems.IntakeFlipper.eDesiredEndState;
+
+public class Dashboard {
+  
+}
 
 public class RobotContainer {
 
@@ -89,6 +100,7 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
+      addTrajectory();
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
@@ -154,6 +166,24 @@ public class RobotContainer {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
     }
+
+    public void addTrajectory() {
+      var m_trajectory =
+         TrajectoryGenerator.generateTrajectory(
+             new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+   
+             List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+   
+             new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+   
+             new TrajectoryConfig(3.0,3.0));
+   
+     var m_field = new Field2d();
+     SmartDashboard.updateValues(); 
+   
+     m_field.getObject("traj").setTrajectory(null);
+     
+   }
 
     void LEDs() {
       //led.ColorChange(led.HubTimer()).repeatedly();
