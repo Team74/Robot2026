@@ -45,8 +45,8 @@ public class IntakeFlipper extends SubsystemBase{
 
   double desiredPositionTarget = 0;
 
-  eCurrentState currentState = eCurrentState.IN_STOPPED; 
-  eDesiredEndState currentDesiredState = eDesiredEndState.IN; 
+  public eCurrentState currentState = eCurrentState.IN_STOPPED; 
+  public eDesiredEndState currentDesiredState = eDesiredEndState.IN; 
 
   SparkMax intakeMoverMax = new SparkMax(Constants.IntakeConstants.MoverMotorID, MotorType.kBrushless);
   SparkClosedLoopController m_controller = intakeMoverMax.getClosedLoopController();
