@@ -87,8 +87,8 @@ public class RobotContainer {
     
 
     public RobotContainer() {
-      drivefaceAngle.HeadingController.setPID(5, 0, 0.5);
-      drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+      drivefaceAngle.HeadingController.setPID(10, 0, 0.1);
+      //drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
       var autonShoot = new SequentialCommandGroup(
         shooter.shootDuration(),
@@ -154,19 +154,19 @@ public class RobotContainer {
     public void addTrajectory() {
       var targetHeading = ArcSwerve.calcRotation2d(drivetrain);
 
-      var m_trajectory = TrajectoryGenerator.generateTrajectory(
-             drivetrain.getState().Pose,   
-             null,   
-             new Pose2d(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY(), targetHeading),
-             new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
+      // var m_trajectory = TrajectoryGenerator.generateTrajectory(
+      //        drivetrain.getState().Pose,   
+      //        null,   
+      //        new Pose2d(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY(), targetHeading),
+      //        new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
    
-      logger.TargetTrajectory = m_trajectory;
+      // logger.TargetTrajectory = m_trajectory;
      
    }
 
     void controlMapping(){
       //At this point, this will just send data to the dashboard.
-      shooter.setDefaultCommand(new AimBot(drivetrain));
+      shooter.setDefaultCommand(new AimBot(drivetrain, shooter));
 
       //DRIVER CONTROLS
       //

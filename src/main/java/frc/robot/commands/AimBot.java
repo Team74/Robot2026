@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import com.reduxrobotics.frames.ShortArrayFrame.ShortArrayToType;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,11 +18,15 @@ import frc.robot.subsystems.Shooter;
 
 public class AimBot extends Command {
     private final CommandSwerveDrivetrain drivetrain;
+    private final Shooter shooter;
 
 
 
-    public AimBot(CommandSwerveDrivetrain drivetrain) {
+    public AimBot(CommandSwerveDrivetrain drivetrain, Shooter shooter) {
         this.drivetrain = drivetrain;
+        this.shooter = shooter;
+        addRequirements(shooter);
+        
     }
     
     @Override
