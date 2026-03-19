@@ -166,7 +166,7 @@ public class RobotContainer {
 
     void controlMapping(){
       //At this point, this will just send data to the dashboard.
-      shooter.setDefaultCommand(new AimBot(drivetrain, shooter));
+      shooter.setDefaultCommand(new AimBot(drivetrain, shooter, hood));
 
       //DRIVER CONTROLS
       //
@@ -215,7 +215,8 @@ public class RobotContainer {
         .onTrue(hood.SetTarget())
         .whileFalse(hood.StopHood());
 
-      operatorXbox.a().onTrue(hood.Print()).onFalse(hood.StopHood());
+      operatorXbox.a().onTrue(hood.MoveToSetTarget()).onFalse(hood.StopHood());
+      operatorXbox.y().toggleOnTrue(hood.Print());
 
       testJumpToTargetButton
         .onTrue(hood.JumpToTarget())
