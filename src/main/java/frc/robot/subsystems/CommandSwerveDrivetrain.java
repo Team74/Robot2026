@@ -294,7 +294,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
     LinearVelocity stop = MetersPerSecond.of(0);
     public Command path_find_to(Pose2d pose, LinearVelocity endVelocity){
-        var  constraints = new PathConstraints(5, 5, Math.toRadians(270), Math.toRadians(360));   
+        var  constraints = new PathConstraints(2.5, 5, Math.toRadians(360), Math.toRadians(360));   
 
         return AutoBuilder.pathfindToPose(pose
         , constraints

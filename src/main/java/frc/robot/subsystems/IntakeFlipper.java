@@ -64,7 +64,7 @@ public class IntakeFlipper extends SubsystemBase{
     motorConfig = new SparkMaxConfig();
     
     motorConfig.encoder
-      .positionConversionFactor(1)
+      .positionConversionFactor(0.5)
       .velocityConversionFactor(1);
 
     motorConfig.closedLoop
@@ -72,7 +72,7 @@ public class IntakeFlipper extends SubsystemBase{
       .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
       // Set PID values for position control. We don't need to pass a closed
       // loop slot, as it will default to slot 0.
-      .p(0.1)
+      .p(0.2)
       .i(0)
       .d(0)
       .outputRange(-1, 1)
@@ -88,11 +88,11 @@ public class IntakeFlipper extends SubsystemBase{
       motorConfig.closedLoop.maxMotion
         // Set MAXMotion parameters for position control. We don't need to pass
         // a closed loop slot, as it will default to slot 0.
-        .cruiseVelocity(1000)
-        .maxAcceleration(1000)
+        .cruiseVelocity(2000)
+        .maxAcceleration(2000)
         .allowedProfileError(1)
         // Set MAXMotion parameters for velocity control in slot 1
-        .maxAcceleration(500, ClosedLoopSlot.kSlot1)
+        .maxAcceleration(1000, ClosedLoopSlot.kSlot1)
         .cruiseVelocity(6000, ClosedLoopSlot.kSlot1)
         .allowedProfileError(1, ClosedLoopSlot.kSlot1);
 
@@ -111,7 +111,7 @@ public class IntakeFlipper extends SubsystemBase{
     });
   }
 
-  public Command MoveToDesiredState(){
+  public Command MoveToDesiredState_Old(){
     return run( () -> {
       var isTopPressed = m_toplimitswitch.get();
       var isBottomPressed = m_bottomlimitswitch.get();
@@ -161,60 +161,31 @@ public class IntakeFlipper extends SubsystemBase{
     });
   }
 
-  public Command MoveToDesiredState_MaxMotion(){
+  public Command MoveToDesiredState(){
     return run( () -> {
     
+        SmartDashboard.putNumber("Flipper Angle", intakeMoverMax.getEncoder().getPosition());
+
+
       var isTopPressed = m_toplimitswitch.get();
       var isBottomPressed = m_bottomlimitswitch.get();
 
-      //If both limits are pressed.... Prob should check the bot....
-      if(isTopPressed && isBottomPressed) {
-        //Stop all
-        desiredintakeMoverSpeed = 0;
-        desiredPositionTarget = 0;
+      if(isTopPressed) {
+          intakeMoverMax.getEncoder().setPosition(0);
       }
-      //If the top limit is hit but not the bottom
-      else if(isTopPressed && !isBottomPressed) {
-        if(currentDesiredState == eDesiredEndState.IN) {
-          //Top is hit and you want to bring it back IN
-          //Send 0
-          desiredintakeMoverSpeed = 0;
+      if(isBottomPressed) {
+          intakeMoverMax.getEncoder().setPosition(-17.976144790649414);
+      }
+
+      if(currentDesiredState == eDesiredEndState.IN) {
+          desiredPositionTarget = -17.976144790649414;
+      }
+
+      if(currentDesiredState == eDesiredEndState.OUT) {
           desiredPositionTarget = 0;
-          currentState = eCurrentState.OUT_STOPPED;
-        }
-        if(currentDesiredState == eDesiredEndState.OUT) {
-          //Top is hit and you want to bring it back OUT
-          //Send neg value
-          desiredintakeMoverSpeed = -intakeMoverSpeedConstant;
-          currentState = eCurrentState.MOVING_IN;
-        }
-      }
-      //If the top limit is NOT hit but the bottom limit IS
-      else if(!isTopPressed && isBottomPressed) {
-        if(currentDesiredState == eDesiredEndState.IN) {
-          //Bottom is hit so make sure to give motor a positive value.
-          //Send pos val
-          desiredintakeMoverSpeed = intakeMoverSpeedConstant;
-          desiredPositionTarget = 90;
-          currentState = eCurrentState.MOVING_OUT;
-        }
-        if(currentDesiredState == eDesiredEndState.OUT) {
-          //Bottom is hit so make sure to give motor a positive value.
-          //Send 0
-          desiredintakeMoverSpeed = 0;
-          desiredPositionTarget = 90;
-          currentState = eCurrentState.IN_STOPPED;
-        }
-      }
-      //If both limits are not hit.
-      else {
-        //Do nothing keep moving in the previous direction until one of the limits are tripped  
       }
 
       m_controller.setSetpoint(desiredPositionTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0);
-
-      //intakeMoverMax.set(desiredintakeMoverSpeed);
-      //System.out.println ("isTopPressed: " + isTopPressed + " isBottomPressed: " + isBottomPressed + " desiredintakeMoverSpeed: " + desiredintakeMoverSpeed + " currentState: " + currentState + " currentDesiredState: " + currentDesiredState);
     });
   }
 
