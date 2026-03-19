@@ -291,8 +291,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 m_hasAppliedOperatorPerspective = true;
             });
         }
-
-        //rotateToPOI();
     }
     LinearVelocity stop = MetersPerSecond.of(0);
     public Command path_find_to(Pose2d pose, LinearVelocity endVelocity){
@@ -301,20 +299,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return AutoBuilder.pathfindToPose(pose
         , constraints
         , endVelocity);
-    }
-
-    public void rotateToPOI(){
-        var  constraints = new PathConstraints(2, 2, Math.toRadians(270), Math.toRadians(360));
-
-        var hubTarget = new Pose2d(4.612, 4.0, new Rotation2d(0));
-
-        var currentPose = getState().Pose;
-
-        var sdcsc = currentPose.minus(hubTarget);
-
-        SmartDashboard.putNumber("Target", sdcsc.getRotation().getDegrees());
-
-
     }
 
     private void startSimThread() {

@@ -8,6 +8,9 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.generated.TunerConstants;
@@ -81,6 +84,16 @@ public final class Constants
     public static final double testPoiX = 2.33; //14.2
     public static final double testPoiY = 4; //4
     public static final double testPoiAngle = Math.toRadians(180);
+
+    public static final Transform2d shooterRelativeToBot = new Transform2d(
+      new Translation2d(0.0, 0.0),
+      new Rotation2d(Math.toRadians(180))
+    );
+  }
+  
+  public static class FieldTargets {
+    public static final Translation2d blueHub = new Translation2d(4.034, 4.600194);
+    public static final Translation2d redHub = new Translation2d(4.034, 11.915394);
 
   }
 }

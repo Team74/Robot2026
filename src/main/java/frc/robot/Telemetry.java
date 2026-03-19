@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.networktables.DoubleArrayPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
@@ -21,12 +22,15 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.commands.ArcSwerve;
 
 public class Telemetry {
+    public Trajectory TargetTrajectory;
+
     private final double MaxSpeed;
     private final Pigeon2 m_pigeon;
     private final Field2d m_field = new Field2d();
-
+    
     /**
      * Construct a telemetry object, with the specified max speed of the robot
      * 
@@ -113,6 +117,11 @@ public class Telemetry {
         gyroRoll.set(m_pigeon.getRoll().getValueAsDouble());
         gyroYaw.set(state.Pose.getRotation().getDegrees());
         gyroYawRate.set(m_pigeon.getAngularVelocityZWorld().getValueAsDouble());
+
+        if(this.TargetTrajectory != null) {
+            m_field.getObject("traj").setTrajectory(this.TargetTrajectory);
+        }
+
         SmartDashboard.putData("Field", m_field);
 
         /* Also write to log file */

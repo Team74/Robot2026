@@ -23,6 +23,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -38,7 +39,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.commands.AimBot;
+import frc.robot.commands.ArcSwerve;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -68,6 +70,12 @@ public class RobotContainer {
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
                                                                 .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
+    private final SwerveRequest.FieldCentricFacingAngle drivefaceAngle = new SwerveRequest.FieldCentricFacingAngle()
+                                                                          .withDeadband(0)
+                                                                          .withRotationalDeadband(0)
+                                                                          .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
+
     private final Telemetry logger = new Telemetry(Constants.MAX_SPEED, drivetrain.getPigeon2());
 
     private final CommandXboxController driverXbox = new CommandXboxController(0);
@@ -79,6 +87,9 @@ public class RobotContainer {
     
 
     public RobotContainer() {
+      drivefaceAngle.HeadingController.setPID(5, 0, 0.5);
+      drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+
       var autonShoot = new SequentialCommandGroup(
         shooter.shootDuration(),
         new WaitCommand(5), // waits for 2 seconds
@@ -104,13 +115,6 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-      // Turtle Mode while held
-      driverXbox.leftBumper().onTrue(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed * Constants.SlowModeDriveMultiplier)
-          .andThen(() -> Constants.MaxAngularRate = Constants.MaxSystemAngularRate * Constants.SlowModeAngleMultiplier));
-      
-          driverXbox.leftBumper().onFalse(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed)
-          .andThen(() -> Constants.MaxAngularRate = Constants.MaxSystemAngularRate));
-
      // addTrajectory();
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
@@ -135,37 +139,6 @@ public class RobotContainer {
         } else {
           controlMapping();
         }
-        //driverXbox.a().whileTrue(drivetrain.applyRequest(() -> brake));
-
-        // driverXbox.y().whileTrue(drivetrain.applyRequest(() ->
-        //     point.withModuleDirection(new Rotation2d(-driverXbox.getLeftY(), -driverXbox.getLeftX()))
-        // ));
-
-        //Lets test driving to a testPOI.....
-        var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
-        driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,MetersPerSecond.of(0)));
-
-        /*driverXbox.povUp().whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        );
-        driverXbox.povDown().whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );*/
-
-        // Run SysId routines when holding back/start and X/Y.
-        // Note that each routine should be run exactly once in a single log.
-        // driverXbox.back().and(driverXbox.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        // driverXbox.back().and(driverXbox.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        // driverXbox.start().and(driverXbox.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        // driverXbox.start().and(driverXbox.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
-        // // Reset the field-centric heading on left bumper press.
-        // driverXbox.y().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-
-        // TurretSubsystem();
-        // IntakeSubsystem();
-        // ClimberSubsystem();
-        // LEDs();
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -179,72 +152,22 @@ public class RobotContainer {
     }
 
     public void addTrajectory() {
-      var m_trajectory =
-         TrajectoryGenerator.generateTrajectory(
-             new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+      var targetHeading = ArcSwerve.calcRotation2d(drivetrain);
+
+      var m_trajectory = TrajectoryGenerator.generateTrajectory(
+             drivetrain.getState().Pose,   
+             null,   
+             new Pose2d(drivetrain.getState().Pose.getX(), drivetrain.getState().Pose.getY(), targetHeading),
+             new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
    
-             List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-   
-             new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
-   
-             new TrajectoryConfig(3.0,3.0));
-   
-     var m_field = new Field2d();
-     SmartDashboard.updateValues(); 
-   
-     m_field.getObject("traj").setTrajectory(null);
+      logger.TargetTrajectory = m_trajectory;
      
    }
 
-    void LEDs() {
-      //led.ColorChange(led.HubTimer()).repeatedly();
-    }
-
-    /*void TurretSubsystem() {
-      //shooter flywheels
-      //tower motor
-      //Hot dogrollers
-      operatorXbox.rightTrigger()
-        .onTrue(shooter.shoot(operatorXbox.b().getAsBoolean()))
-        .onFalse(shooter.stopShooter());
-
-      //Hood Motor
-      operatorXbox.leftBumper()
-        .onTrue(hood.MoveHood(operatorXbox.b().getAsBoolean()))
-        .onFalse(hood.StopHood());
-    }*/
-
-    /*void IntakeSubsystem() {
-      //Intake Roller Motor
-      operatorXbox.leftTrigger()
-        .whileTrue(intake.moveIntake(operatorXbox.b().getAsBoolean()))
-        .whileFalse(intake.intakeStop());
-
-      //Intake Flipper Motor
-      //Debouce events faster than 0.2 seconds
-      operatorXbox.x()
-        .debounce(0.2)
-        .onTrue(intakeFlipper.SwapDesiredState())
-        .onFalse(intakeFlipper.MoveToDesiredState());
-
-      operatorXbox.a()
-        .onTrue(intake.moveHotDog(operatorXbox.b().getAsBoolean()));
-    }*/
-  
-    /*void ClimberSubsystem() {
-      // up on the D-Pad goes up
-      operatorXbox.povUp()
-        .onTrue(climber.ClimbUp())
-        .whileFalse(climber.ClimbStop());
-
-      // down on the D-Pad goes down
-      operatorXbox.povDown()
-        .onTrue(climber.ClimbDown())
-        .whileFalse(climber.ClimbStop());
-    }*/
-
-
     void controlMapping(){
+      //At this point, this will just send data to the dashboard.
+      shooter.setDefaultCommand(new AimBot(drivetrain));
+
       //DRIVER CONTROLS
       //
       //ROBOT RELATIVE
@@ -270,23 +193,19 @@ public class RobotContainer {
           .whileTrue(drivetrain.applyRequest(() -> brake));
 
       //SLOW MODE
-        //driverXbox.leftBumper().whileTrue(MathUtil.clamp(0, 0, 0));
+      driverXbox.leftBumper().onTrue(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed * Constants.SlowModeDriveMultiplier)
+                                    .andThen(() -> Constants.MaxAngularRate = Constants.MaxSystemAngularRate * Constants.SlowModeAngleMultiplier));
       
-
+      driverXbox.leftBumper().onFalse(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed)
+                                     .andThen(() -> Constants.MaxAngularRate = Constants.MaxSystemAngularRate));
+      
       //APRIL TAG ALIGN
+      driverXbox.a().whileTrue(new ArcSwerve(drivetrain, drivefaceAngle, driverXbox));
 
       //PATHPLANNER ON THE FLY
-        //var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
-       //driverXbox.y().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
+      var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
+      driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
     
-      
-      
-      //OPERATOR CONTROLS
-      //
-      //operatorXbox.a().onTrue((hood.TestStringPotentiometer())).whileFalse(hood.StopHood());
-
-      
-
       Trigger reverseIntakeButton = new Trigger(operatorXbox.leftTrigger().and(operatorXbox.b()));
       Trigger reverseShootButton = new Trigger(operatorXbox.rightTrigger().and(operatorXbox.b()));
       Trigger hoodJumpToTargetButton = new Trigger(operatorXbox.rightBumper().and(operatorXbox.rightTrigger()));
