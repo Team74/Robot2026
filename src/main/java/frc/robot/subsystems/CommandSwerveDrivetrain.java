@@ -48,10 +48,7 @@ import pabeles.concurrency.IntOperatorTask.Max;
  * https://v6.docs.ctr-electronics.com/en/stable/docs/tuner/tuner-swerve/index.html
  */
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
-    public static final double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    public static final double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
-
-    private static final double kSimLoopPeriod = 0.004; // 4 ms
+  private static final double kSimLoopPeriod = 0.004; // 4 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
 
@@ -299,7 +296,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
     LinearVelocity stop = MetersPerSecond.of(0);
     public Command path_find_to(Pose2d pose, LinearVelocity endVelocity){
-        var  constraints = new PathConstraints(2, 2, Math.toRadians(270), Math.toRadians(360));   
+        var  constraints = new PathConstraints(5, 5, Math.toRadians(270), Math.toRadians(360));   
 
         return AutoBuilder.pathfindToPose(pose
         , constraints

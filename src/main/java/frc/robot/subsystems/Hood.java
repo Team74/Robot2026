@@ -32,7 +32,7 @@ public class Hood extends SubsystemBase {
 
     public Command JumpToTarget(){
           return run(()->{
-            var target_Lowest =
+            var target_Lowest = 3;
         });
     }
 

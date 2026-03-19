@@ -108,6 +108,29 @@ public class Shooter extends SubsystemBase {
     });
   } 
 
+  public Command shootDuration(){
+
+
+
+    
+    return run(()->{
+      currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();   
+
+      SmartDashboard.putNumber("ShooterRPS", currentRPS_Shooter);
+
+      var request = new VelocityVoltage(0).withSlot(0);
+      shooterMotor.setControl(request.withVelocity(desiredShootSpeed).withFeedForward(0.5));
+
+      if (currentRPS_Shooter >= desiredShootSpeed * 0.9 && (currentRPS_Shooter <= desiredShootSpeed*1.1) ) {
+        towerMotor.set(desiredTowerSpeed * -1);
+        hotdogMotor.set(hotdogSpeed);
+      } else {
+        towerMotor.set(0);
+        hotdogMotor.set(0);
+      }
+    });
+  } 
+
   public Command reverseShoot(){
     return run(()->{
       currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
