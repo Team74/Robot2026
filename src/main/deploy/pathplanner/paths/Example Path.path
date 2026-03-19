@@ -52,7 +52,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "intake",
+      "name": "intake Swap",
       "waypointRelativePos": 0.5,
       "endWaypointRelativePos": null,
       "command": {
@@ -61,6 +61,12 @@
           "name": "shoot"
         }
       }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
     }
   ],
   "globalConstraints": {

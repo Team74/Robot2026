@@ -28,19 +28,24 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3005319148936177,
+      "rotationDegrees": 179.56996341161522
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "shoot",
-      "waypointRelativePos": 0.6235201262825572,
+      "name": "stopShoot",
+      "waypointRelativePos": 0.3646408839779015,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
-      "name": "",
-      "waypointRelativePos": 0.8918705603788462,
+      "name": "intake",
+      "waypointRelativePos": 0.8034727703235996,
       "endWaypointRelativePos": null,
       "command": null
     }
