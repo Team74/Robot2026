@@ -204,7 +204,7 @@ public class RobotContainer {
 
       //PATHPLANNER ON THE FLY
       var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
-      driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,TunerConstants.kSpeedAt12Volts));
+      driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,MetersPerSecond.of(0)));
     
       Trigger reverseIntakeButton = new Trigger(operatorXbox.leftTrigger().and(operatorXbox.b()));
       Trigger reverseShootButton = new Trigger(operatorXbox.rightTrigger().and(operatorXbox.b()));
@@ -231,7 +231,7 @@ public class RobotContainer {
       //FLIP INTAKE
       operatorXbox.x().debounce(0.009)
         .onTrue(intakeFlipper.SwapDesiredState())
-        .onFalse(intakeFlipper.MoveToDesiredState());
+        .whileFalse(intakeFlipper.MoveToDesiredState());
 
       //SHOOT
       operatorXbox.rightTrigger()

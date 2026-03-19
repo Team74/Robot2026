@@ -36,5 +36,14 @@ public class AimBot extends Command {
 
         //This wil calc both distance and rotation to hub
         ArcSwerve.calcRotation2d(drivetrain);
+
+        var targetHeading = SmartDashboard.getNumber("targetHeading", 0);
+
+        var DistanceToTarget = SmartDashboard.getNumber("DistanceToTarget", 0);
+
+
+        if(DistanceToTarget == 0) {
+            
+        }
     }
 }

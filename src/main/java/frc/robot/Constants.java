@@ -92,7 +92,8 @@ public final class Constants
   }
   
   public static class FieldTargets {
-    public static final Translation2d blueHub = new Translation2d(4.034, 4.650194);
+    public static final Translation2d blueHub = new Translation2d(4.034, 4.950194);
+                                                                        // was 4.650149
     public static final Translation2d redHub = new Translation2d(4.034, 11.865394);
 
   }
