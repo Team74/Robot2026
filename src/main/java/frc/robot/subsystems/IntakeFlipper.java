@@ -214,7 +214,7 @@ public class IntakeFlipper extends SubsystemBase{
       m_controller.setSetpoint(desiredPositionTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0);
 
       //intakeMoverMax.set(desiredintakeMoverSpeed);
-      System.out.println ("isTopPressed: " + isTopPressed + " isBottomPressed: " + isBottomPressed + " desiredintakeMoverSpeed: " + desiredintakeMoverSpeed + " currentState: " + currentState + " currentDesiredState: " + currentDesiredState);
+      //System.out.println ("isTopPressed: " + isTopPressed + " isBottomPressed: " + isBottomPressed + " desiredintakeMoverSpeed: " + desiredintakeMoverSpeed + " currentState: " + currentState + " currentDesiredState: " + currentDesiredState);
     });
   }
 
