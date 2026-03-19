@@ -27,7 +27,7 @@ public class Hood extends SubsystemBase {
     
     double hoodSpeed = Constants.ShooterConstants.hoodSpeed;
     double stringPotValue = stringPot.get();
-    double hoodTargetValue = 4.99;
+    public double hoodTargetValue = 4.99;
 
     public eCurrentHoodState currentState = eCurrentHoodState.AT_LOWEST; 
     public eDesiredHoodTarget desiredTarget = eDesiredHoodTarget.LOWEST_TARGET; 
@@ -58,8 +58,7 @@ public class Hood extends SubsystemBase {
 
     @Override
     public void periodic() {
-        stringPotValue = stringPot.get();
-        hoodCurrentSpeed = hood.get();
+        
         if (hoodCurrentSpeed != 0){
             currentState = eCurrentHoodState.MANUAL;
         }
@@ -143,12 +142,14 @@ public Command JumpToTarget(){
 
     public Command Print(){
         return run(()->{
-            System.out.println("current state: " + currentState + "desired target: " + desiredTarget);
+            System.out.println(stringPotValue);
         });
     }
 
     public Command MoveHoodUp(){
         return run(()->{
+            stringPotValue = stringPot.get();
+            hoodCurrentSpeed = hood.get();
 
             if (stringPotValue >= 10.29) {
                 hoodSpeed = 0;
@@ -161,6 +162,8 @@ public Command JumpToTarget(){
 
     public Command MoveHoodDown(){
         return run(()->{
+        stringPotValue = stringPot.get();
+        hoodCurrentSpeed = hood.get();
             if (stringPotValue <= 5.18) {
                hoodSpeed = 0;
             }
@@ -173,6 +176,23 @@ public Command JumpToTarget(){
         return run(()->{
             hood.set(0);
             hoodSpeed = Constants.ShooterConstants.hoodSpeed;
+        });
+    }
+
+    public Command MoveToSetTarget(){
+        return run(()->{
+            hoodSpeed = Constants.ShooterConstants.hoodSpeed;
+            if (stringPotValue > hoodTargetValue) {
+                hood.set(-hoodSpeed);
+            } 
+            else if(stringPotValue < hoodTargetValue) {
+                hood.set(hoodSpeed);
+            } 
+            if (stringPotValue > hoodTargetValue -0.5 && stringPotValue < hoodTargetValue + 0.5) {
+                hoodSpeed = 0;
+                hood.set(hoodSpeed);
+            }
+            //System.out.println(hoodTargetValue);
         });
     }
 

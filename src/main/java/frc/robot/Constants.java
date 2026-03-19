@@ -42,7 +42,7 @@ public final class Constants
     public static final int FeederMotorID = 33;
     public static final double IntakeMoverSpeed = 0.1;
     public static final double HotDogSpeed = 1;
-    public static final double intakeSpeed = -0.5;
+    public static final double intakeSpeed = -1;
   }
 
   public static class OperatorConstants
