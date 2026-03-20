@@ -177,20 +177,20 @@ public class IntakeFlipper extends SubsystemBase{
       if(isBottomPressed) {
           intakeMoverMax.getEncoder().setPosition(-17.976144790649414);
           currentState = eCurrentState.OUT_STOPPED;
+      }
+        
+      if(currentDesiredState == eDesiredEndState.IN) {
+        desiredPositionTarget = -17.976144790649414;
+        if (!isTopPressed){
+          currentState = eCurrentState.MOVING_OUT;
         }
-        
-        if(currentDesiredState == eDesiredEndState.IN) {
-          desiredPositionTarget = -17.976144790649414;
-          if (!isTopPressed){
-            currentState = eCurrentState.MOVING_OUT;
-          }
-        } 
-        
-        if(currentDesiredState == eDesiredEndState.OUT) {
-          desiredPositionTarget = 0;
-          if (!isBottomPressed){
-            currentState = eCurrentState.MOVING_IN;
-          }          
+      } 
+      
+      if(currentDesiredState == eDesiredEndState.OUT) {
+        desiredPositionTarget = 0;
+        if (!isBottomPressed){
+          currentState = eCurrentState.MOVING_IN;
+        }          
       }
 
       m_controller.setSetpoint(desiredPositionTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0);

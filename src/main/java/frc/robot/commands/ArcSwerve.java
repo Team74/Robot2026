@@ -48,7 +48,7 @@ public class ArcSwerve extends Command {
         var alliance = DriverStation.getAlliance().get();
 
         if (DriverStation.getAlliance() == null){
-            alliance = alliance.Blue;
+            alliance = Alliance.Blue;
         }
 
         boolean isBlue = (alliance == Alliance.Blue);
