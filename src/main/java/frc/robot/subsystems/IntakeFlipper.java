@@ -83,6 +83,18 @@ public class IntakeFlipper extends SubsystemBase{
     intakeMoverMax.configure(intakeFlipperConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
+  public Command IntakeIn(){
+     return runOnce( () -> {
+        currentDesiredState = eDesiredEndState.IN;
+      });
+  }
+
+  public Command IntakeOut(){
+     return runOnce( () -> {
+        currentDesiredState = eDesiredEndState.OUT;
+      });
+  }
+
   public Command SwapDesiredState(){
     return runOnce( () -> {
       if(currentDesiredState == eDesiredEndState.IN) {
