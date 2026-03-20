@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.1701423487544496,
-        "y": 4.567580071174377
+        "x": 3.363807829181496,
+        "y": 4.804282325029655
       },
       "prevControl": {
-        "x": 3.202419928825624,
-        "y": 5.309964412811388
+        "x": 3.39608540925267,
+        "y": 5.546666666666666
       },
       "nextControl": null,
       "isLocked": false,
@@ -52,24 +52,24 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "intake Swap",
+      "name": "shoot",
+      "waypointRelativePos": 0.08,
+      "endWaypointRelativePos": 1.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "shoot"
+        }
+      }
+    },
+    {
+      "name": "sdsO",
       "waypointRelativePos": 0.08366219415943127,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
           "name": "intake Swap"
-        }
-      }
-    },
-    {
-      "name": "shoot",
-      "waypointRelativePos": 0.7987371744277786,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "shoot"
         }
       }
     }

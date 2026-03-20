@@ -138,7 +138,7 @@ public Command JumpToTarget(){
             }
 
             hood.set(hoodSpeed);
-            System.out.println("current state: " + currentState + "desired target: " + desiredTarget);
+           // System.out.println("current state: " + currentState + "desired target: " + desiredTarget);
         });
     }
 
@@ -157,7 +157,7 @@ public Command JumpToTarget(){
             }
 
             hood.set(hoodSpeed);
-            System.out.println(stringPotValue);
+          //  System.out.println(stringPotValue);
         });
     }
 
@@ -168,7 +168,7 @@ public Command JumpToTarget(){
                hoodSpeed = 0;
             }
             hood.set(hoodSpeed * -1);
-            System.out.println(stringPotValue);
+          //  System.out.println(stringPotValue);
         });
     }
 

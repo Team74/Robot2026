@@ -93,12 +93,7 @@ public class RobotContainer {
       drivefaceAngle.HeadingController.setPID(Constants.VisionConstants.arcKp, Constants.VisionConstants.arcKi, Constants.VisionConstants.arcKd);
       drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
-      var autonShoot = new SequentialCommandGroup(
-        shooter.shootDuration(),
-        new WaitCommand(5), // waits for 5 seconds
-        shooter.stopShooter()
-      );  
-      
+    
       
       NamedCommands.registerCommand( "SetDesiredStateIn", intakeFlipper.IntakeIn()
                                                             .andThen(intakeFlipper.MoveToDesiredState()));
@@ -111,7 +106,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("intake Swap", intakeFlipper.SwapDesiredState()
                                                                   .andThen(intakeFlipper.MoveToDesiredState()
                                                                   .until(() -> intakeFlipper.currentState == eCurrentState.OUT_STOPPED && intakeFlipper.currentDesiredState == eDesiredEndState.OUT 
-                                                                              |intakeFlipper.currentState == eCurrentState.IN_STOPPED && intakeFlipper.currentDesiredState == eDesiredEndState.IN)));
+                                                                              || intakeFlipper.currentState == eCurrentState.IN_STOPPED && intakeFlipper.currentDesiredState == eDesiredEndState.IN)));
         NamedCommands.registerCommand("intake", intake.intakeIn());
         NamedCommands.registerCommand("stopShoot", shooter.stopShooter());
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
