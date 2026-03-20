@@ -65,6 +65,7 @@ public class LEDs extends SubsystemBase {
   final LEDPattern pattern_To_Apply = pattern_Rainbow_Scroll;
 
   public LEDs() {
+    timer = new Timer();
     leds = new AddressableLED(5);
     ledBuff =
         new AddressableLEDBuffer(
@@ -131,8 +132,8 @@ public class LEDs extends SubsystemBase {
 
     case 'B': isRedHubActive = true;
     break;
-
-    default: return false;
+// assuming true (active) at start before data because of transition phase
+    default: return true;
   }
   if (DriverStation.isTeleopEnabled() && !timer.isRunning()) {
     timer.reset();
