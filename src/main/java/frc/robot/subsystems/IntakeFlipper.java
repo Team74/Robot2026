@@ -111,56 +111,6 @@ public class IntakeFlipper extends SubsystemBase{
     });
   }
 
-  public Command MoveToDesiredState_Old(){
-    return run( () -> {
-      var isTopPressed = m_toplimitswitch.get();
-      var isBottomPressed = m_bottomlimitswitch.get();
-
-      //If both limits are pressed.... Prob should check the bot....
-      if(isTopPressed && isBottomPressed) {
-        //Stop all
-        desiredintakeMoverSpeed = 0;
-      }
-      //If the top limit is hit but not the bottom
-      else if(isTopPressed && !isBottomPressed) {
-        if(currentDesiredState == eDesiredEndState.IN) {
-          //Top is hit and you want to bring it back IN
-          //Send 0
-          desiredintakeMoverSpeed = 0;
-          currentState = eCurrentState.IN_STOPPED;
-        }
-        if(currentDesiredState == eDesiredEndState.OUT) {
-          //Top is hit and you want to bring it back OUT
-          //Send neg value
-          desiredintakeMoverSpeed = -intakeMoverSpeedConstant;
-          currentState = eCurrentState.MOVING_OUT;
-        }
-      }
-      //If the top limit is NOT hit but the bottom limit IS
-      else if(!isTopPressed && isBottomPressed) {
-        if(currentDesiredState == eDesiredEndState.IN) {
-          //Bottom is hit so make sure to give motor a positive value.
-          //Send pos val
-          desiredintakeMoverSpeed = intakeMoverSpeedConstant;
-          currentState = eCurrentState.MOVING_IN;
-        }
-        if(currentDesiredState == eDesiredEndState.OUT) {
-          //Bottom is hit so make sure to give motor a positive value.
-          //Send 0
-          desiredintakeMoverSpeed = 0;
-          currentState = eCurrentState.OUT_STOPPED;
-        }
-      }
-      //If both limits are not hit.
-      else {
-        //Do nothing keep moving in the previous direction until one of the limits are tripped  
-      }
-
-      intakeMoverMax.set(desiredintakeMoverSpeed);
-      System.out.println ("isTopPressed: " + isTopPressed + " isBottomPressed: " + isBottomPressed + " desiredintakeMoverSpeed: " + desiredintakeMoverSpeed + " currentState: " + currentState + " currentDesiredState: " + currentDesiredState);
-    });
-  }
-
   public Command MoveToDesiredState(){
     return run( () -> {
     
@@ -197,12 +147,15 @@ public class IntakeFlipper extends SubsystemBase{
     });
   }
 
-
   public Command Stop(){
     return run( () -> {
       intakeMoverMax.set(0);
     });
   }
 
+    @Override
+    public void periodic() {
 
+
+    }
 }
