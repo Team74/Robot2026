@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "Test2_1"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "intake Swap"
+            "waitTime": 3.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "Test2_2"
           }
         }
       ]

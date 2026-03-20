@@ -18,7 +18,7 @@ import frc.robot.generated.TunerConstants;
 public final class Constants
 {
   public static final double MaxSystemSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed    
-  public static final double MaxSystemAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+  public static final double MaxSystemAngularRate = RotationsPerSecond.of(1).in(RadiansPerSecond); // 1 of a rotation per second max angular velocity
 
   public static double MAX_SPEED = MaxSystemSpeed;
   public static double MaxAngularRate = MaxSystemAngularRate;
@@ -81,8 +81,8 @@ public final class Constants
   public static class VisionConstants {
     public static final String limelightName = "limelight-bot";
 
-    public static final double testPoiX = 2.33; //14.2
-    public static final double testPoiY = 4; //4
+    public static final double testPoiX = 3.0988; //13.436 for red
+    public static final double testPoiY = 4; //4 for red
     public static final double testPoiAngle = Math.toRadians(180);
 
     public static final Transform2d shooterRelativeToBot = new Transform2d(
@@ -92,9 +92,8 @@ public final class Constants
   }
   
   public static class FieldTargets {
-    public static final Translation2d blueHub = new Translation2d(4.034, 4.950194);
-                                                                        // was 4.650149
-    public static final Translation2d redHub = new Translation2d(4.034, 11.865394);
+    public static final Translation2d blueHub = new Translation2d(4.6228, 4);
+    public static final Translation2d redHub = new Translation2d(11.912, 4);
 
   }
 }

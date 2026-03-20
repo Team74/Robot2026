@@ -100,7 +100,7 @@ public class IntakeFlipper extends SubsystemBase{
   }
 
   public Command SwapDesiredState(){
-    return run( () -> {
+    return runOnce( () -> {
       if(currentDesiredState == eDesiredEndState.IN) {
         currentDesiredState = eDesiredEndState.OUT;
       }
@@ -172,17 +172,25 @@ public class IntakeFlipper extends SubsystemBase{
 
       if(isTopPressed) {
           intakeMoverMax.getEncoder().setPosition(0);
+          currentState = eCurrentState.IN_STOPPED;
       }
       if(isBottomPressed) {
           intakeMoverMax.getEncoder().setPosition(-17.976144790649414);
-      }
-
-      if(currentDesiredState == eDesiredEndState.IN) {
+          currentState = eCurrentState.OUT_STOPPED;
+        }
+        
+        if(currentDesiredState == eDesiredEndState.IN) {
           desiredPositionTarget = -17.976144790649414;
-      }
-
-      if(currentDesiredState == eDesiredEndState.OUT) {
+          if (!isTopPressed){
+            currentState = eCurrentState.MOVING_OUT;
+          }
+        } 
+        
+        if(currentDesiredState == eDesiredEndState.OUT) {
           desiredPositionTarget = 0;
+          if (!isBottomPressed){
+            currentState = eCurrentState.MOVING_IN;
+          }          
       }
 
       m_controller.setSetpoint(desiredPositionTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0);

@@ -53,7 +53,18 @@
   "eventMarkers": [
     {
       "name": "intake Swap",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.08366219415943127,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake Swap"
+        }
+      }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 0.7987371744277786,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -61,12 +72,6 @@
           "name": "shoot"
         }
       }
-    },
-    {
-      "name": "shoot",
-      "waypointRelativePos": 1.0,
-      "endWaypointRelativePos": null,
-      "command": null
     }
   ],
   "globalConstraints": {

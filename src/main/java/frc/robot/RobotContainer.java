@@ -190,8 +190,8 @@ public class RobotContainer {
           .onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
       //LOCK DRIVEBASE
-        driverXbox.a()
-          .whileTrue(drivetrain.applyRequest(() -> brake));
+    //    driverXbox.a()
+    //      .whileTrue(drivetrain.applyRequest(() -> brake));
 
       //SLOW MODE
       driverXbox.leftBumper().onTrue(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed * Constants.SlowModeDriveMultiplier)
