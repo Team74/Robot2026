@@ -47,6 +47,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeFlipper;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeFlipper.eCurrentState;
 import frc.robot.subsystems.IntakeFlipper.eDesiredEndState;
@@ -58,6 +59,7 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
     private final Intake intake = new Intake(shooter);
+    private final LEDs led = new LEDs();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -168,6 +170,7 @@ public class RobotContainer {
     void controlMapping(){
       //At this point, this will just send data to the dashboard.
       shooter.setDefaultCommand(new AimBot(drivetrain, shooter, hood));
+      SmartDashboard.putBoolean("Do I Shoot?", led.HubTimer());
 
       //DRIVER CONTROLS
       //
