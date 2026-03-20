@@ -181,7 +181,7 @@ public Command JumpToTarget(){
 
     public Command MoveToSetTarget(){
         return run(()->{
-            hoodSpeed = Constants.ShooterConstants.hoodSpeed;
+            //hoodSpeed = Constants.ShooterConstants.hoodSpeed;
             if (stringPotValue > hoodTargetValue) {
                 hood.set(-hoodSpeed);
             } 
