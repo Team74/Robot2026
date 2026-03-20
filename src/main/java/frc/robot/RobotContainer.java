@@ -94,7 +94,7 @@ public class RobotContainer {
       drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
     
-      
+       NamedCommands.registerCommand("stopIntake", intake.intakeStop());
       NamedCommands.registerCommand( "SetDesiredStateIn", intakeFlipper.IntakeIn()
                                                             .andThen(intakeFlipper.MoveToDesiredState()));
       NamedCommands.registerCommand("SetDesiredStateOut", intakeFlipper.IntakeOut()
