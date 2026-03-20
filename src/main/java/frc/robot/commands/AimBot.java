@@ -51,10 +51,10 @@ public class AimBot extends Command {
             hood.hoodTargetValue = 5.573;
         }
         else if (DistanceToTarget > 1.9939 && DistanceToTarget <= 2.841){
-            hood.hoodTargetValue = 5.35;
+            hood.hoodTargetValue = 5.841;
         }
         else if (DistanceToTarget > 2.841 && DistanceToTarget <= 2.7432){
-            hood.hoodTargetValue = 5.424;
+            hood.hoodTargetValue = 7.1946;
             Constants.ShooterConstants.shooterDesiredRPS = Constants.ShooterConstants.shooterDesiredRPS + 10;
         }
     }
