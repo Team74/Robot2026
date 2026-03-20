@@ -58,6 +58,8 @@ public class Hood extends SubsystemBase {
 
     @Override
     public void periodic() {
+        stringPotValue = stringPot.get();
+        hoodCurrentSpeed = hood.get();
         
         if (hoodCurrentSpeed != 0){
             currentState = eCurrentHoodState.MANUAL;
@@ -148,8 +150,7 @@ public Command JumpToTarget(){
 
     public Command MoveHoodUp(){
         return run(()->{
-            stringPotValue = stringPot.get();
-            hoodCurrentSpeed = hood.get();
+            
 
             if (stringPotValue >= 10.29) {
                 hoodSpeed = 0;
@@ -162,8 +163,7 @@ public Command JumpToTarget(){
 
     public Command MoveHoodDown(){
         return run(()->{
-        stringPotValue = stringPot.get();
-        hoodCurrentSpeed = hood.get();
+         
             if (stringPotValue <= 5.18) {
                hoodSpeed = 0;
             }

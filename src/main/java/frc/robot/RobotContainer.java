@@ -216,7 +216,7 @@ public class RobotContainer {
         .whileFalse(hood.StopHood());
 
       operatorXbox.a().onTrue(hood.MoveToSetTarget()).onFalse(hood.StopHood());
-      operatorXbox.y().toggleOnTrue(hood.Print());
+      operatorXbox.y().onTrue(hood.Print()).onFalse(hood.StopHood());
 
       testJumpToTargetButton
         .onTrue(hood.JumpToTarget())
