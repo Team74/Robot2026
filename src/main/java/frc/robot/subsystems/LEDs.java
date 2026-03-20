@@ -34,7 +34,7 @@ public class LEDs extends SubsystemBase {
   boolean isRedHubActive;
   Color allianceColor;
 
-  Timer timer = new Timer();
+  Timer timer;
   int timespeed;
   int time;
   int value; // COLOR
@@ -65,6 +65,7 @@ public class LEDs extends SubsystemBase {
   final LEDPattern pattern_To_Apply = pattern_Rainbow_Scroll;
 
   public LEDs() {
+    timer = new Timer();
     leds = new AddressableLED(5);
     ledBuff =
         new AddressableLEDBuffer(
