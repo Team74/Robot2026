@@ -3,6 +3,7 @@ package frc.robot.commands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -20,6 +21,8 @@ public class ArcSwerve extends Command {
 
     private final SwerveRequest.FieldCentricFacingAngle driveRequest;
 
+    SlewRateLimiter rotLimiter = new SlewRateLimiter(360);
+
     public ArcSwerve(CommandSwerveDrivetrain drivetrain, SwerveRequest.FieldCentricFacingAngle request, CommandXboxController controller) {
         this.drivetrain = drivetrain;
         this.controller = controller;
@@ -30,11 +33,15 @@ public class ArcSwerve extends Command {
     @Override
     public void execute() {
         var targetHeading = calcRotation2d(this.drivetrain);
+        
+        var rot = rotLimiter.calculate(targetHeading.getDegrees());
+
+        var rotDeg = new Rotation2d(rot);
 
         drivetrain.setControl(driveRequest
             .withVelocityX(MathUtil.applyDeadband(-controller.getLeftY() * Constants.MAX_SPEED, 0.1))
             .withVelocityY(MathUtil.applyDeadband(-controller.getLeftX() * Constants.MAX_SPEED, 0.1))
-            .withTargetDirection(targetHeading));
+            .withTargetDirection(rotDeg));
     }
 
     public static Rotation2d calcRotation2d(CommandSwerveDrivetrain drivetrain) {
@@ -45,12 +52,11 @@ public class ArcSwerve extends Command {
         Pose2d shooterPose = robotPose.plus(Constants.VisionConstants.shooterRelativeToBot);
         
         //What Alliance
-        var alliance = DriverStation.getAlliance().get();
+        var alliance = Alliance.Blue;
 
-        if (DriverStation.getAlliance() == null){
-            alliance = alliance.Blue;
+        if (!DriverStation.getAlliance().isEmpty()){
+            alliance = DriverStation.getAlliance().get();
         }
-
         boolean isBlue = (alliance == Alliance.Blue);
 
         Translation2d targetPos = isBlue ? Constants.FieldTargets.blueHub : Constants.FieldTargets.redHub;

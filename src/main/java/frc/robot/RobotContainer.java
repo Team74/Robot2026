@@ -27,6 +27,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -89,8 +90,8 @@ public class RobotContainer {
     
 
     public RobotContainer() {
-      drivefaceAngle.HeadingController.setPID(10, 0, 0.5);
-      //drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+      drivefaceAngle.HeadingController.setPID(Constants.VisionConstants.arcKp, Constants.VisionConstants.arcKi, Constants.VisionConstants.arcKd);
+      drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
       var autonShoot = new SequentialCommandGroup(
         shooter.shootDuration(),
@@ -170,6 +171,7 @@ public class RobotContainer {
     void controlMapping(){
       //At this point, this will just send data to the dashboard.
       shooter.setDefaultCommand(new AimBot(drivetrain, shooter, hood));
+      
       //SmartDashboard.putBoolean("Do I Shoot?", led.HubTimer());
 
       //DRIVER CONTROLS
@@ -207,7 +209,15 @@ public class RobotContainer {
       driverXbox.a().whileTrue(new ArcSwerve(drivetrain, drivefaceAngle, driverXbox));
 
       //PATHPLANNER ON THE FLY
-      var targetPose = new Pose2d(Constants.VisionConstants.testPoiX, Constants.VisionConstants.testPoiY, new Rotation2d(Constants.VisionConstants.testPoiAngle));
+      var alliance = Alliance.Blue;
+
+      if (DriverStation.getAlliance() != null){
+          alliance = DriverStation.getAlliance().get();
+      }
+      boolean isBlue = (alliance == Alliance.Blue);
+
+      Pose2d targetPose = isBlue ? Constants.VisionConstants.blueShooter : Constants.VisionConstants.redShooter;
+
       driverXbox.x().whileTrue(drivetrain.path_find_to(targetPose,MetersPerSecond.of(0)));
     
       Trigger reverseIntakeButton = new Trigger(operatorXbox.leftTrigger().and(operatorXbox.b()));

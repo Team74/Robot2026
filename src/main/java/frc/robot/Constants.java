@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -43,6 +44,10 @@ public final class Constants
     public static final double IntakeMoverSpeed = 0.1;
     public static final double HotDogSpeed = 1;
     public static final double intakeSpeed = -1;
+
+    public static final double flipClosedEncoderValue = 0;
+    public static final double flipOpenEncoderValue = -17.975;
+    public static final int flipSmartCurrentLimit = 10;
   }
 
   public static class OperatorConstants
@@ -81,14 +86,29 @@ public final class Constants
   public static class VisionConstants {
     public static final String limelightName = "limelight-bot";
 
-    public static final double testPoiX = 3.0988; //13.436 for red
-    public static final double testPoiY = 4; //4 for red
-    public static final double testPoiAngle = Math.toRadians(180);
+    // public static final double testPoiX = 3.0988; //13.436 for red
+    // public static final double testPoiY = 4; //4 for red
+    // public static final double testPoiAngle = Math.toRadians(180);
+
+    public static final Pose2d blueShooter = new Pose2d(
+      new Translation2d(3.0988, 4.0),
+      new Rotation2d(Math.toRadians(180))
+    );
+
+    public static final Pose2d redShooter = new Pose2d(
+      new Translation2d(13.895, 4.0),
+      new Rotation2d(Math.toRadians(0))
+    );
+
 
     public static final Transform2d shooterRelativeToBot = new Transform2d(
       new Translation2d(0.0, 0.0),
       new Rotation2d(Math.toRadians(180))
     );
+
+    public static final double arcKp = 9.5;
+    public static final double arcKi = 0.0;
+    public static final double arcKd = 0.23;
   }
   
   public static class FieldTargets {

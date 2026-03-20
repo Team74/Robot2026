@@ -40,14 +40,14 @@ public class Intake extends SubsystemBase{
 
   public Command intakeIn(){
     return run(()->{
-      intakeMax.set(intakeDesiredSpeed*1);
+      intakeMax.set(intakeDesiredSpeed);
       hotdogMotor.set(hotdogSpeed * 1);
     });
   } 
 
   public Command intakeOut(){
     return run(()->{
-      intakeMax.set(intakeDesiredSpeed * -1);
+      intakeMax.set(intakeDesiredSpeed);
       hotdogMotor.set(hotdogSpeed * -0.5);
     });
   } 

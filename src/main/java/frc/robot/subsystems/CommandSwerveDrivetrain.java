@@ -269,8 +269,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return m_sysIdRoutineToApply.dynamic(direction);
     }
 
-  
-
     @Override
     public void periodic() {
         /*
