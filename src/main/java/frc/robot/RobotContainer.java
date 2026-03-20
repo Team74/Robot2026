@@ -100,6 +100,11 @@ public class RobotContainer {
       );  
       
       
+      NamedCommands.registerCommand( "SetDesiredStateIn", intakeFlipper.IntakeIn()
+                                                            .andThen(intakeFlipper.MoveToDesiredState()));
+      NamedCommands.registerCommand("SetDesiredStateOut", intakeFlipper.IntakeOut()
+                                                            .andThen(intakeFlipper.MoveToDesiredState()));
+
       NamedCommands.registerCommand("shoot", shooter.shoot());
       NamedCommands.registerCommand("shootStop", shooter.stopShooter());
         // swaps state then moves until desired state is reached
