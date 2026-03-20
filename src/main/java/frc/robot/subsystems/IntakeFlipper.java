@@ -17,7 +17,10 @@ import com.revrobotics.spark.config.LimitSwitchConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogTrigger;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
@@ -49,8 +52,6 @@ public class IntakeFlipper extends SubsystemBase{
   public eDesiredEndState currentDesiredState = eDesiredEndState.IN; 
 
   SparkMax intakeMoverMax = new SparkMax(Constants.IntakeConstants.MoverMotorID, MotorType.kBrushless);
-  SparkClosedLoopController m_controller = intakeMoverMax.getClosedLoopController();
-  private SparkMaxConfig motorConfig;
 
   DigitalInput m_toplimitswitch = new DigitalInput(1);
   DigitalInput m_bottomlimitswitch = new DigitalInput(0);
@@ -58,45 +59,28 @@ public class IntakeFlipper extends SubsystemBase{
   double intakeMoverSpeedConstant = Constants.IntakeConstants.IntakeMoverSpeed;
   double desiredintakeMoverSpeed = 0;
 
+  private static double kS = 1.1;
+  private static double kG = 1.2;
+  private static double kV = 1.3;
+
+  ProfiledPIDController pidFlipPidController = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(1, 5));
+  //ArmFeedforward flipFeedforward = new ArmFeedforward(kS, kG, kV);
+
+  double currentPosition = 0;
+  double flipperMotorSpeed = 0;
+
   public IntakeFlipper() {
     intakeMoverMax.getEncoder().setPosition(0);
-
-    motorConfig = new SparkMaxConfig();
     
-    motorConfig.encoder
-      .positionConversionFactor(0.5)
-      .velocityConversionFactor(1);
+    pidFlipPidController.disableContinuousInput();
 
-    motorConfig.closedLoop
-      
-      .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-      // Set PID values for position control. We don't need to pass a closed
-      // loop slot, as it will default to slot 0.
-      .p(0.2)
-      .i(0)
-      .d(0)
-      .outputRange(-1, 1)
-      // Set PID values for velocity control in slot 1
-      .p(0.0001, ClosedLoopSlot.kSlot1)
-      .i(0, ClosedLoopSlot.kSlot1)
-      .d(0, ClosedLoopSlot.kSlot1)
-      .outputRange(-1, 1, ClosedLoopSlot.kSlot1)
-      .feedForward
-      // kV is now in Volts, so we multiply by the nominal voltage (12V)
-      .kV(12.0 / 5767, ClosedLoopSlot.kSlot1);
+    SparkMaxConfig intakeFlipperConfig = new SparkMaxConfig();
 
-      motorConfig.closedLoop.maxMotion
-        // Set MAXMotion parameters for position control. We don't need to pass
-        // a closed loop slot, as it will default to slot 0.
-        .cruiseVelocity(2000)
-        .maxAcceleration(2000)
-        .allowedProfileError(1)
-        // Set MAXMotion parameters for velocity control in slot 1
-        .maxAcceleration(1000, ClosedLoopSlot.kSlot1)
-        .cruiseVelocity(6000, ClosedLoopSlot.kSlot1)
-        .allowedProfileError(1, ClosedLoopSlot.kSlot1);
-
-      intakeMoverMax.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    intakeFlipperConfig
+      .idleMode(IdleMode.kBrake)
+      .smartCurrentLimit(Constants.IntakeConstants.flipSmartCurrentLimit);
+        
+    intakeMoverMax.configure(intakeFlipperConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public Command SwapDesiredState(){
@@ -107,43 +91,40 @@ public class IntakeFlipper extends SubsystemBase{
       else {
         currentDesiredState = eDesiredEndState.IN;
       }
-      System.out.println("swap");
     });
   }
 
   public Command MoveToDesiredState(){
     return run( () -> {
-    
-        SmartDashboard.putNumber("Flipper Angle", intakeMoverMax.getEncoder().getPosition());
-
-
       var isTopPressed = m_toplimitswitch.get();
       var isBottomPressed = m_bottomlimitswitch.get();
 
       if(isTopPressed) {
-          intakeMoverMax.getEncoder().setPosition(0);
+          intakeMoverMax.getEncoder().setPosition(Constants.IntakeConstants.flipClosedEncoderValue);
           currentState = eCurrentState.IN_STOPPED;
       }
       if(isBottomPressed) {
-          intakeMoverMax.getEncoder().setPosition(-17.976144790649414);
+          intakeMoverMax.getEncoder().setPosition(Constants.IntakeConstants.flipOpenEncoderValue);
           currentState = eCurrentState.OUT_STOPPED;
       }
-        
       if(currentDesiredState == eDesiredEndState.IN) {
-        desiredPositionTarget = -17.976144790649414;
-        if (!isTopPressed){
-          currentState = eCurrentState.MOVING_OUT;
-        }
+        desiredPositionTarget = Constants.IntakeConstants.flipOpenEncoderValue;
       } 
-      
       if(currentDesiredState == eDesiredEndState.OUT) {
-        desiredPositionTarget = 0;
-        if (!isBottomPressed){
-          currentState = eCurrentState.MOVING_IN;
-        }          
+        desiredPositionTarget = Constants.IntakeConstants.flipClosedEncoderValue;
       }
 
-      m_controller.setSetpoint(desiredPositionTarget, ControlType.kMAXMotionPositionControl, ClosedLoopSlot.kSlot0);
+      flipperMotorSpeed = 
+        pidFlipPidController.calculate(currentPosition, desiredPositionTarget);
+        
+      if(flipperMotorSpeed > 0) {
+          currentState = eCurrentState.MOVING_IN;
+      } 
+      else if(flipperMotorSpeed < 0) {
+          currentState = eCurrentState.MOVING_OUT;
+      }
+
+      intakeMoverMax.set(flipperMotorSpeed);
     });
   }
 
@@ -153,9 +134,12 @@ public class IntakeFlipper extends SubsystemBase{
     });
   }
 
-    @Override
-    public void periodic() {
+  @Override
+  public void periodic() {
+    currentPosition = intakeMoverMax.getEncoder().getPosition();
 
-
-    }
+    SmartDashboard.putNumber("Flipper Angle", currentPosition);
+    SmartDashboard.putNumber("Flipper Motor Speed", flipperMotorSpeed);
+    SmartDashboard.putString("Flipper DesiredState", currentDesiredState.toString());
+  }
 }
