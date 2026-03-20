@@ -55,7 +55,9 @@ public class AimBot extends Command {
         }
         else if (DistanceToTarget > 2.841 && DistanceToTarget <= 2.7432){
             hood.hoodTargetValue = 7.1946;
-            Constants.ShooterConstants.shooterDesiredRPS = Constants.ShooterConstants.shooterDesiredRPS + 10;
+            //Constants.ShooterConstants.shooterDesiredRPS = Constants.ShooterConstants.shooterDesiredRPS + 10;
+        } else {
+            hood.hoodTargetValue = 7.3;
         }
     }
 }
