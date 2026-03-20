@@ -47,6 +47,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeFlipper;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.IntakeFlipper.eCurrentState;
 import frc.robot.subsystems.IntakeFlipper.eDesiredEndState;
@@ -58,6 +59,7 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
     private final Intake intake = new Intake(shooter);
+    private final LEDs led = new LEDs();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -87,24 +89,25 @@ public class RobotContainer {
     
 
     public RobotContainer() {
-      drivefaceAngle.HeadingController.setPID(10, 0, 0.1);
+      drivefaceAngle.HeadingController.setPID(10, 0, 0.5);
       //drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
       var autonShoot = new SequentialCommandGroup(
         shooter.shootDuration(),
-        new WaitCommand(5), // waits for 2 seconds
+        new WaitCommand(5), // waits for 5 seconds
         shooter.stopShooter()
       );  
       
       
-      NamedCommands.registerCommand("shoot", autonShoot);
+      NamedCommands.registerCommand("shoot", shooter.shoot());
+      NamedCommands.registerCommand("shootStop", shooter.stopShooter());
         // swaps state then moves until desired state is reached
         NamedCommands.registerCommand("intake Swap", intakeFlipper.SwapDesiredState()
                                                                   .andThen(intakeFlipper.MoveToDesiredState()
                                                                   .until(() -> intakeFlipper.currentState == eCurrentState.OUT_STOPPED && intakeFlipper.currentDesiredState == eDesiredEndState.OUT 
                                                                               |intakeFlipper.currentState == eCurrentState.IN_STOPPED && intakeFlipper.currentDesiredState == eDesiredEndState.IN)));
         NamedCommands.registerCommand("intake", intake.intakeIn());
-        
+        NamedCommands.registerCommand("stopShoot", shooter.stopShooter());
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -167,6 +170,7 @@ public class RobotContainer {
     void controlMapping(){
       //At this point, this will just send data to the dashboard.
       shooter.setDefaultCommand(new AimBot(drivetrain, shooter, hood));
+      SmartDashboard.putBoolean("Do I Shoot?", led.HubTimer());
 
       //DRIVER CONTROLS
       //
@@ -189,8 +193,8 @@ public class RobotContainer {
           .onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
       //LOCK DRIVEBASE
-        driverXbox.a()
-          .whileTrue(drivetrain.applyRequest(() -> brake));
+    //    driverXbox.a()
+    //      .whileTrue(drivetrain.applyRequest(() -> brake));
 
       //SLOW MODE
       driverXbox.leftBumper().onTrue(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed * Constants.SlowModeDriveMultiplier)

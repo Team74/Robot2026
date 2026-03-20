@@ -113,7 +113,7 @@ public class LEDs extends SubsystemBase {
     leds.setData(ledBuff);
   }
 
-  public Color HubTimer() {
+  public boolean HubTimer() {
   Optional<Alliance>  alliance =  DriverStation.getAlliance();
   switch (alliance.toString()){
     case "Blue": allianceColor = Color.kBlue;
@@ -132,7 +132,7 @@ public class LEDs extends SubsystemBase {
     case 'B': isRedHubActive = true;
     break;
 
-    default: return allianceColor;
+    default: return false;
   }
   if (DriverStation.isTeleopEnabled() && !timer.isRunning()) {
     timer.reset();
@@ -141,45 +141,45 @@ public class LEDs extends SubsystemBase {
 
   if (timer.get() >= 110) {
     // Endgame 
-    // always green
-    return Color.kGreen;
+    // always true
+    return true;
 
   } else if (timer.get() >= 85) {
     // Shift 4
-    // if not red first and we are red then green, otherwise our color
+    // if not red first and we are red then true, otherwise false
       if(!isRedHubActive && alliance.toString() == "Red") {
-      return Color.kGreen;  
+      return true;  
     } 
-    else {return allianceColor;}
+    else {return false;}
 
   } else if (timer.get() >= 60) {
     // Shift 3
-    // if red first and we are red then green, otherwise our color
+    // if red first and we are red then true, otherwise false
       if(isRedHubActive && alliance.toString() == "Red") {
-      return Color.kGreen;  
+      return true;  
     } 
-    else {return allianceColor;}
+    else {return false;}
 
   } else if (timer.get() >= 35) {
     // Shift 2 
-    // if not red first and we are red then green, otherwise our color
+    // if not red first and we are red then true, otherwise false
         if(!isRedHubActive && alliance.toString() == "Red") {
-      return Color.kGreen;  
+      return true;  
     } 
-    else {return allianceColor;}
+    else {return false;}
 
   } else if (timer.get() >= 10) {
     // Shift 1
-    // if red first and we are red then green, otherwise our color
+    // if red first and we are red then true, otherwise false
     if(isRedHubActive && alliance.toString() == "Red") {
-      return Color.kGreen;  
+      return true;  
     } 
-    else {return allianceColor;}
+    else {return false;}
 
   } else {
     // Transition phase
-    // always green
-    return Color.kGreen;
+    // always true
+    return true;
   }
   }
 }
