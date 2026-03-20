@@ -131,8 +131,8 @@ public class LEDs extends SubsystemBase {
 
     case 'B': isRedHubActive = true;
     break;
-
-    default: return false;
+// assuming true (active) at start before data because of transition phase
+    default: return true;
   }
   if (DriverStation.isTeleopEnabled() && !timer.isRunning()) {
     timer.reset();
