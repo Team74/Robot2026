@@ -52,12 +52,11 @@ public class ArcSwerve extends Command {
         Pose2d shooterPose = robotPose.plus(Constants.VisionConstants.shooterRelativeToBot);
         
         //What Alliance
-        var alliance = DriverStation.getAlliance().get();
+        var alliance = Alliance.Blue;
 
-        if (DriverStation.getAlliance() == null){
-            alliance = Alliance.Blue;
+        if (!DriverStation.getAlliance().isEmpty()){
+            alliance = DriverStation.getAlliance().get();
         }
-
         boolean isBlue = (alliance == Alliance.Blue);
 
         Translation2d targetPos = isBlue ? Constants.FieldTargets.blueHub : Constants.FieldTargets.redHub;
