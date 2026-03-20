@@ -170,7 +170,7 @@ public class RobotContainer {
     void controlMapping(){
       //At this point, this will just send data to the dashboard.
       shooter.setDefaultCommand(new AimBot(drivetrain, shooter, hood));
-      SmartDashboard.putBoolean("Do I Shoot?", led.HubTimer());
+      //SmartDashboard.putBoolean("Do I Shoot?", led.HubTimer());
 
       //DRIVER CONTROLS
       //
