@@ -108,10 +108,10 @@ public class IntakeFlipper extends SubsystemBase{
           currentState = eCurrentState.OUT_STOPPED;
       }
       if(currentDesiredState == eDesiredEndState.IN) {
-        desiredPositionTarget = Constants.IntakeConstants.flipOpenEncoderValue;
+        desiredPositionTarget = Constants.IntakeConstants.flipClosedEncoderValue;
       } 
       if(currentDesiredState == eDesiredEndState.OUT) {
-        desiredPositionTarget = Constants.IntakeConstants.flipClosedEncoderValue;
+        desiredPositionTarget = Constants.IntakeConstants.flipOpenEncoderValue;
       }
 
       flipperMotorSpeed = 
@@ -141,5 +141,6 @@ public class IntakeFlipper extends SubsystemBase{
     SmartDashboard.putNumber("Flipper Angle", currentPosition);
     SmartDashboard.putNumber("Flipper Motor Speed", flipperMotorSpeed);
     SmartDashboard.putString("Flipper DesiredState", currentDesiredState.toString());
+    SmartDashboard.putString("Flipper Current State", currentState.toString());
   }
 }
