@@ -47,6 +47,10 @@ public class ArcSwerve extends Command {
         //What Alliance
         var alliance = DriverStation.getAlliance().get();
 
+        if (DriverStation.getAlliance() == null){
+            alliance = alliance.Blue;
+        }
+
         boolean isBlue = (alliance == Alliance.Blue);
 
         Translation2d targetPos = isBlue ? Constants.FieldTargets.blueHub : Constants.FieldTargets.redHub;

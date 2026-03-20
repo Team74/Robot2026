@@ -44,17 +44,20 @@ public class AimBot extends Command {
         //This wil calc both distance and rotation to hub
         ArcSwerve.calcRotation2d(drivetrain);
 
-        if (DistanceToTarget <= 1.5494){
-            hood.hoodTargetValue = 4.975;
+        if (DistanceToTarget <= 1.5621){
+            hood.hoodTargetValue = 5.2842;
         } 
-        else if (DistanceToTarget > 1.5494 && DistanceToTarget <= 1.8542){
-            hood.hoodTargetValue = 5.28;
+        else if (DistanceToTarget > 1.5421 && DistanceToTarget <= 1.9939){
+            hood.hoodTargetValue = 5.573;
         }
-        else if (DistanceToTarget > 1.8542 && DistanceToTarget <= 2.4638){
-            hood.hoodTargetValue = 5.35;
+        else if (DistanceToTarget > 1.9939 && DistanceToTarget <= 2.841){
+            hood.hoodTargetValue = 5.841;
         }
-        else if (DistanceToTarget > 2.4638 && DistanceToTarget <= 2.7432){
-            hood.hoodTargetValue = 5.424;
+        else if (DistanceToTarget > 2.841 && DistanceToTarget <= 2.7432){
+            hood.hoodTargetValue = 7.1946;
+            //Constants.ShooterConstants.shooterDesiredRPS = Constants.ShooterConstants.shooterDesiredRPS + 10;
+        } else {
+            hood.hoodTargetValue = 7.3;
         }
     }
 }
