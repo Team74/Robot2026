@@ -55,6 +55,8 @@ public class AimBot extends Command {
         }
         else if (DistanceToTarget > 2.4638 && DistanceToTarget <= 2.7432){
             hood.hoodTargetValue = 5.424;
+        } else {
+            hood.hoodTargetValue = 
         }
     }
 }
