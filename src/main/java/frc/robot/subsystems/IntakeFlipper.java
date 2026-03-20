@@ -63,7 +63,7 @@ public class IntakeFlipper extends SubsystemBase{
   private static double kG = 1.2;
   private static double kV = 1.3;
 
-  ProfiledPIDController pidFlipPidController = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(1, 5));
+  ProfiledPIDController pidFlipPidController = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(1, 1));
   //ArmFeedforward flipFeedforward = new ArmFeedforward(kS, kG, kV);
 
   double currentPosition = 0;
