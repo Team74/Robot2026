@@ -142,6 +142,13 @@ System.out.println("currentRPS_Shooter: " + currentRPS_Shooter);
       hotdogMotor.set(0);
     });
   } 
+
+  public Command SpinUpToRPS(){
+    return run(()->{
+      var request = new VelocityVoltage(0).withSlot(0);
+      shooterMotor.setControl(request.withVelocity(desiredShootSpeed).withFeedForward(0.5));
+    });
+  }
   
   public Command testTower(boolean reverse){
     return run(()->{
