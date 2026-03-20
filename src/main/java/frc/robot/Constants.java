@@ -93,6 +93,10 @@ public final class Constants
       new Translation2d(0.0, 0.0),
       new Rotation2d(Math.toRadians(180))
     );
+
+    public static final double arcKp = 9.5;
+    public static final double arcKi = 0.0;
+    public static final double arcKd = 0.23;
   }
   
   public static class FieldTargets {

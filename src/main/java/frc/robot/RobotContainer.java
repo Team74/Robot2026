@@ -89,8 +89,8 @@ public class RobotContainer {
     
 
     public RobotContainer() {
-      drivefaceAngle.HeadingController.setPID(10, 0, 0.5);
-      //drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+      drivefaceAngle.HeadingController.setPID(Constants.VisionConstants.arcKp, Constants.VisionConstants.arcKi, Constants.VisionConstants.arcKd);
+      drivefaceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
       var autonShoot = new SequentialCommandGroup(
         shooter.shootDuration(),
