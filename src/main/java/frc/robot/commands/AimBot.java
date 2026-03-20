@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import com.reduxrobotics.frames.ShortArrayFrame.ShortArrayToType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -44,7 +45,20 @@ public class AimBot extends Command {
         //This wil calc both distance and rotation to hub
         ArcSwerve.calcRotation2d(drivetrain);
 
-        if (DistanceToTarget <= 1.5621){
+        if (DistanceToTarget <= 2.3) {
+            if (hood.stringPotValue < 10.2 && hood.stringPotValue > 5){
+                hood.hoodTargetValue = 3.304 * Math.pow(1.3, DistanceToTarget);
+            }
+        } else {
+            if (hood.stringPotValue < 10.2 && hood.stringPotValue > 5){
+                hood.hoodTargetValue = 3.304 * Math.pow(1.3, DistanceToTarget);
+            }
+            if (shooter.currentRPS_Shooter < 95){
+                Constants.ShooterConstants.shooterDesiredRPS = 25 * DistanceToTarget - 15; 
+            }
+        }
+
+        /*if (DistanceToTarget <= 1.5621){
             hood.hoodTargetValue = 5.2842;
         } 
         else if (DistanceToTarget > 1.5421 && DistanceToTarget <= 1.9939){
@@ -58,6 +72,6 @@ public class AimBot extends Command {
             //Constants.ShooterConstants.shooterDesiredRPS = Constants.ShooterConstants.shooterDesiredRPS + 10;
         } else {
             hood.hoodTargetValue = 7.3;
-        }
+        }*/
     }
 }
