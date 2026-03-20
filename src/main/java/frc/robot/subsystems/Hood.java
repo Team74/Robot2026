@@ -26,7 +26,7 @@ public class Hood extends SubsystemBase {
     
     
     double hoodSpeed = Constants.ShooterConstants.hoodSpeed;
-    double stringPotValue = stringPot.get();
+    public double stringPotValue = stringPot.get();
     public double hoodTargetValue = 4.99;
 
     public eCurrentHoodState currentState = eCurrentHoodState.AT_LOWEST; 
@@ -60,7 +60,7 @@ public class Hood extends SubsystemBase {
     public void periodic() {
         stringPotValue = stringPot.get();
         hoodCurrentSpeed = hood.get();
-        
+
         if (hoodCurrentSpeed != 0){
             currentState = eCurrentHoodState.MANUAL;
         }

@@ -63,7 +63,7 @@ public class Shooter extends SubsystemBase {
 
   Follower thign = new Follower(6, MotorAlignmentValue.Opposed);
 
-  int desiredShootSpeed = Constants.ShooterConstants.shooterDesiredRPS; 
+  double desiredShootSpeed = Constants.ShooterConstants.shooterDesiredRPS; 
   int desiredTowerSpeed = Constants.ShooterConstants.towerDesiredRPS; 
   double hotdogSpeed = Constants.IntakeConstants.HotDogSpeed;
   public double currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();

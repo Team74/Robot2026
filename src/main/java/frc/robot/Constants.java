@@ -60,7 +60,7 @@ public final class Constants
     public static final int ShooterMotorID = 6;
     public static final int ShooterMotor2ID = 7;
     public static final double hoodSpeed = .25;
-    public static int shooterDesiredRPS = 45;
+    public static double shooterDesiredRPS = 45;
     public static int towerDesiredRPS = -90;
     public static double KS = 0.05;
     public static double KV = 0.12;
