@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Potential RED shoot Path(Start)"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 0.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Potential RED shoot Path(Middle)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
           }
         }
       ]
