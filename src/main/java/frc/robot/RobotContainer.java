@@ -230,7 +230,7 @@ public class RobotContainer {
         .whileFalse(hood.StopHood());
 
       operatorXbox.a().onTrue(hood.MoveToSetTarget()).onFalse(hood.StopHood());
-      operatorXbox.y().onTrue(hood.Print()).onFalse(hood.StopHood());
+      
 
       testJumpToTargetButton
         .onTrue(hood.JumpToTarget())
@@ -245,8 +245,12 @@ public class RobotContainer {
         .whileFalse(intake.intakeStop());
       //FLIP INTAKE
       operatorXbox.x().debounce(0.009)
-        .onTrue(intakeFlipper.SwapDesiredState())
-        .whileFalse(intakeFlipper.MoveToDesiredState());
+        .onTrue(intakeFlipper.IntakeIn())
+        .onFalse(intakeFlipper.MoveToDesiredState());
+
+      operatorXbox.y().debounce(0.009)
+        .onTrue(intakeFlipper.IntakeOut())
+        .onFalse(intakeFlipper.MoveToDesiredState());
 
       //SHOOT
       operatorXbox.rightTrigger()

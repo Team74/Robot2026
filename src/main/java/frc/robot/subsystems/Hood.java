@@ -151,11 +151,6 @@ public Command JumpToTarget(){
     public Command MoveHoodUp(){
         return run(()->{
             
-
-            if (stringPotValue >= 10.29) {
-                hoodSpeed = 0;
-            }
-
             hood.set(hoodSpeed);
           //  System.out.println(stringPotValue);
         });
@@ -164,9 +159,7 @@ public Command JumpToTarget(){
     public Command MoveHoodDown(){
         return run(()->{
          
-            if (stringPotValue <= 5.18) {
-               hoodSpeed = 0;
-            }
+            
             hood.set(hoodSpeed * -1);
           //  System.out.println(stringPotValue);
         });
@@ -182,7 +175,7 @@ public Command JumpToTarget(){
     public Command MoveToSetTarget(){
         return run(()->{
             //hoodSpeed = Constants.ShooterConstants.hoodSpeed;
-            if (stringPotValue > hoodTargetValue) {
+            /*if (stringPotValue > hoodTargetValue) {
                 hood.set(-hoodSpeed);
             } 
             else if(stringPotValue < hoodTargetValue) {
@@ -191,7 +184,7 @@ public Command JumpToTarget(){
             if (stringPotValue > hoodTargetValue -0.5 && stringPotValue < hoodTargetValue + 0.5) {
                 hoodSpeed = 0;
                 hood.set(hoodSpeed);
-            }
+            }*/
             //System.out.println(hoodTargetValue);
         });
     }

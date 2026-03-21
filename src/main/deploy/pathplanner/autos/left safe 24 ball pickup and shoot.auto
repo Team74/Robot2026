@@ -7,25 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "center preload shooting"
+            "pathName": "safe side 24 ball thing"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.5
+            "waitTime": 5.0
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "center to ball pickup"
+            "name": "stopShoot"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Left Side Autons",
   "choreoAuto": false
 }

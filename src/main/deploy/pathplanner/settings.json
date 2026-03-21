@@ -2,8 +2,19 @@
   "robotWidth": 0.787,
   "robotLength": 0.787,
   "holonomicMode": true,
-  "pathFolders": [],
-  "autoFolders": [],
+  "pathFolders": [
+    "Balls on the side already (L)",
+    "Bump(L)",
+    "Misc.",
+    "Trench right",
+    "Preload Shooting LEft",
+    "Preload shooting Right",
+    "Trench Left"
+  ],
+  "autoFolders": [
+    "Left Side Autons",
+    "Right Side Autons"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

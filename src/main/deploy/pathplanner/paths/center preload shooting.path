@@ -93,10 +93,10 @@
     "rotation": 151.557
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Preload Shooting LEft",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.4013996449995759
   },
   "useDefaultConstraints": true
 }
