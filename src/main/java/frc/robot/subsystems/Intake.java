@@ -36,6 +36,14 @@ public class Intake extends SubsystemBase{
   public Intake(Shooter _shooter){
     this.shooter = _shooter;
     hotdogMotor = _shooter.hotdogMotor;
+
+     SparkMaxConfig intakeFlipperConfig = new SparkMaxConfig();
+
+    intakeFlipperConfig
+      .idleMode(IdleMode.kBrake)
+      .smartCurrentLimit(35);
+        
+    intakeMax.configure(intakeFlipperConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public Command intakeIn(){
