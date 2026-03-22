@@ -91,13 +91,23 @@
       "name": "stopShoot",
       "waypointRelativePos": 0.6,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "stopShoot"
+        }
+      }
     },
     {
       "name": "intake",
       "waypointRelativePos": 1.4882681564245819,
       "endWaypointRelativePos": 3.0,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake"
+        }
+      }
     }
   ],
   "globalConstraints": {
