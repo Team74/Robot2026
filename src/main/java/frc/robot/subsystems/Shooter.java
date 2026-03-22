@@ -69,6 +69,7 @@ public class Shooter extends SubsystemBase {
   double desiredShootSpeed = Constants.ShooterConstants.shooterDesiredRPS; 
   int desiredTowerSpeed = Constants.ShooterConstants.towerDesiredRPS; 
   double hotdogSpeed = Constants.IntakeConstants.HotDogSpeed;
+  static int i = 0;
   public double currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
 
   CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
@@ -106,6 +107,19 @@ public class Shooter extends SubsystemBase {
     towerMotor.configure(towerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     
 
+  }
+
+  public double pulse(int FullCycleLength){
+    if (i == FullCycleLength){
+      i = 0;
+      return 0;
+    } else if (i > (FullCycleLength/2)) {
+      i++;
+      return 0;
+    } else {
+      i++;
+      return 1;
+    }
   }
 
   public Command shoot(){
