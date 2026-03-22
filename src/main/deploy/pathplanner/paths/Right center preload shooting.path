@@ -52,8 +52,19 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "SetDesiredStateOut",
-      "waypointRelativePos": 0.0,
+      "name": "SpinUpToRPS",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SpinUpToRPS"
+        }
+      }
+    },
+    {
+      "name": "Intake Out",
+      "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -63,14 +74,8 @@
       }
     },
     {
-      "name": "SpinUpToRPS",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "shoot",
-      "waypointRelativePos": 0.606749311294766,
+      "waypointRelativePos": 0.5550621669627022,
       "endWaypointRelativePos": 1.0,
       "command": {
         "type": "named",
