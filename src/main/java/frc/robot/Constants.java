@@ -43,7 +43,7 @@ public final class Constants
     public static final int FeederMotorID = 45;
     public static final double IntakeMoverSpeed = 0.1;
     public static final double HotDogSpeed = 1;
-    public static final double intakeSpeed = -1;
+    public static final double intakeSpeed = 1;
 
     public static final double flipClosedEncoderValue = 0.1;
     public static final double flipOpenEncoderValue = -17.5;
