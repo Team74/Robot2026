@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase{
 
     intakeConfig
       .idleMode(IdleMode.kBrake)
-      .smartCurrentLimit(35);
+      .smartCurrentLimit(25);
         
     intakeMax.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
