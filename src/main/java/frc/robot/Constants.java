@@ -29,6 +29,24 @@ public final class Constants
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
 
+  public static final class CurrentLimits {
+    public static double DriveStator = 50.0;
+    public static double DriveSupply = 50.0;
+    public static double SteerStator = 50.0;
+    public static double SteerSupply = 50.0;
+
+    public static int SupplyCurrentLimit = 40;
+    public static boolean SupplyCurrentLimitEnable = true;
+    public static int StatorCurrentLimit = 40;
+    public static boolean StatorCurrentLimitEnable = true;
+    public static int Tower = 0;
+    public static int Intake = 35;
+    public static int IntakeFlipper = 10;
+    public static int Hotdog = 0;
+    public static int Hood = 35;
+  }
+
+
   public static final class DrivebaseConstants
   {
     public static final int GyroID = 2;
@@ -47,7 +65,6 @@ public final class Constants
 
     public static final double flipClosedEncoderValue = 0.1;
     public static final double flipOpenEncoderValue = -17.5;
-    public static final int flipSmartCurrentLimit = 10;
   }
 
   public static class OperatorConstants
@@ -72,10 +89,6 @@ public final class Constants
     public static double KP = 0.11;
     public static double KI = 0.5;
     public static double KD = 0.01;
-    public static int SupplyCurrentLimit = 40;
-    public static boolean SupplyCurrentLimitEnable = true;
-    public static int StatorCurrentLimit = 40;
-    public static boolean StatorCurrentLimitEnable = true;
   }
 
   public static class ClimberConstants{
