@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Preload shoot side"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shoot"
+            "pathName": "center preload shooting"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 1.5
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "side to ball pickup"
+            "pathName": "TEST center to ball pickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "return center pickup"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Left Side Autons",
   "choreoAuto": false
 }

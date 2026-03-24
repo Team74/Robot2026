@@ -27,7 +27,7 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase{
   Shooter shooter;
-  SparkMax intakeMax = new SparkMax(Constants.IntakeConstants.FeederMotorID, MotorType.kBrushed);
+  SparkMax intakeMax = new SparkMax(Constants.IntakeConstants.FeederMotorID, MotorType.kBrushless);
   SparkMax hotdogMotor;
 
   double intakeDesiredSpeed = Constants.IntakeConstants.intakeSpeed;
@@ -36,6 +36,15 @@ public class Intake extends SubsystemBase{
   public Intake(Shooter _shooter){
     this.shooter = _shooter;
     hotdogMotor = _shooter.hotdogMotor;
+
+     SparkMaxConfig intakeConfig = new SparkMaxConfig();
+
+    intakeConfig
+      .idleMode(IdleMode.kBrake)
+      .smartCurrentLimit(35)
+      .closedLoopRampRate(.5);
+        
+    intakeMax.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public Command intakeIn(){

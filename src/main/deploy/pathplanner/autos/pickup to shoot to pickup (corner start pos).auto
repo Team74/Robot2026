@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "safe side 24 ball thing"
+            "pathName": "pickup from corner start"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "shoot"
+            "pathName": "return center pickup"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 3.0
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "stopShoot"
+            "pathName": "TEST center to ball pickup"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Left Side Autons",
   "choreoAuto": false
 }

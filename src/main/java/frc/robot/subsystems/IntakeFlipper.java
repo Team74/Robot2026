@@ -63,7 +63,7 @@ public class IntakeFlipper extends SubsystemBase{
   private static double kG = 1.2;
   private static double kV = 1.3;
 
-  ProfiledPIDController pidFlipPidController = new ProfiledPIDController(0.1, 0, 0, new TrapezoidProfile.Constraints(1, 1));
+  PIDController pidFlipPidController = new PIDController(0.1, 0, 0);
   //ArmFeedforward flipFeedforward = new ArmFeedforward(kS, kG, kV);
 
   double currentPosition = 0;
@@ -112,11 +112,11 @@ public class IntakeFlipper extends SubsystemBase{
       var isBottomPressed = m_bottomlimitswitch.get();
 
       if(isTopPressed) {
-          intakeMoverMax.getEncoder().setPosition(Constants.IntakeConstants.flipClosedEncoderValue);
+         // intakeMoverMax.getEncoder().setPosition(Constants.IntakeConstants.flipClosedEncoderValue);
           currentState = eCurrentState.IN_STOPPED;
       }
       if(isBottomPressed) {
-          intakeMoverMax.getEncoder().setPosition(Constants.IntakeConstants.flipOpenEncoderValue);
+          //intakeMoverMax.getEncoder().setPosition(Constants.IntakeConstants.flipOpenEncoderValue);
           currentState = eCurrentState.OUT_STOPPED;
       }
       if(currentDesiredState == eDesiredEndState.IN) {
@@ -129,6 +129,8 @@ public class IntakeFlipper extends SubsystemBase{
       flipperMotorSpeed = 
         pidFlipPidController.calculate(currentPosition, desiredPositionTarget);
         
+
+        flipperMotorSpeed = MathUtil.clamp(flipperMotorSpeed, -0.3, 0.3);
       if(flipperMotorSpeed > 0) {
           currentState = eCurrentState.MOVING_IN;
       } 

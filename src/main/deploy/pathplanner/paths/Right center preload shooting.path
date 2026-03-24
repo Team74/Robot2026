@@ -3,41 +3,46 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 7.65
+        "x": 3.6358522727272726,
+        "y": 0.4306628787878799
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4597203986860388,
-        "y": 7.4430661133231295
+        "x": 2.9216287878790097,
+        "y": 1.9753787878849194
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.295350378787879,
-        "y": 6.908503787878788
+        "x": 3.4365340909093125,
+        "y": 3.4121306818243125
       },
       "prevControl": {
-        "x": 3.3831312391849773,
-        "y": 7.142586082271048
+        "x": 2.9050189393941603,
+        "y": 2.440454545460676
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.2593085106382989,
+      "rotationDegrees": 161.38017347443414
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 0.5,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 120.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
         "unlimited": false
@@ -47,16 +52,37 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "intake Swap",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "SpinUpToRPS",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SpinUpToRPS"
+        }
+      }
+    },
+    {
+      "name": "Intake Out",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake Swap"
+        }
+      }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 0.5550621669627022,
+      "endWaypointRelativePos": 1.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "shoot"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -69,13 +95,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.23457689007147
+    "rotation": -151.18920625702702
   },
   "reversed": false,
-  "folder": "Preload Shooting LEft",
+  "folder": "Preload shooting Right",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.6005346312953569
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

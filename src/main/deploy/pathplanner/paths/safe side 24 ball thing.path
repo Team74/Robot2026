@@ -20,7 +20,7 @@
         "y": 6.900198863636364
       },
       "prevControl": {
-        "x": 0.42871448863636363,
+        "x": 0.42871448863636374,
         "y": 7.691761955492424
       },
       "nextControl": {
@@ -91,31 +91,56 @@
       "name": "intake Swap",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake Swap"
+        }
+      }
     },
     {
       "name": "intake",
       "waypointRelativePos": 1.038888888888886,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake"
+        }
+      }
     },
     {
       "name": "SpinUpToRPS",
       "waypointRelativePos": 1.6870370370370331,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SpinUpToRPS"
+        }
+      }
     },
     {
       "name": "stopIntake",
       "waypointRelativePos": 2.535185185185182,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "stopIntake"
+        }
+      }
     },
     {
       "name": "shoot",
       "waypointRelativePos": 2.9092592592592625,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "shoot"
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -131,7 +156,7 @@
     "rotation": 179.30553971245024
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Balls on the side already (L)",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -179.9963573312613

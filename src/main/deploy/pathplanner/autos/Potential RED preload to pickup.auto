@@ -7,19 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "center preload shooting"
+            "pathName": "Potential RED shoot Path(Start)"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.5
+            "waitTime": 5.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "center to ball pickup"
+            "pathName": "Potential RED feed Path(Score)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.0
           }
         }
       ]

@@ -34,14 +34,14 @@ public class ArcSwerve extends Command {
     public void execute() {
         var targetHeading = calcRotation2d(this.drivetrain);
         
-        var rot = rotLimiter.calculate(targetHeading.getDegrees());
+        // var rot = rotLimiter.calculate(targetHeading.getDegrees());
 
-        var rotDeg = new Rotation2d(rot);
+        // var rotDeg = new Rotation2d(rot);
 
         drivetrain.setControl(driveRequest
             .withVelocityX(MathUtil.applyDeadband(-controller.getLeftY() * Constants.MAX_SPEED, 0.1))
             .withVelocityY(MathUtil.applyDeadband(-controller.getLeftX() * Constants.MAX_SPEED, 0.1))
-            .withTargetDirection(rotDeg));
+            .withTargetDirection(targetHeading));
     }
 
     public static Rotation2d calcRotation2d(CommandSwerveDrivetrain drivetrain) {

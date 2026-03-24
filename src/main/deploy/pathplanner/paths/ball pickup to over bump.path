@@ -3,39 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6,
-        "y": 7.65
+        "x": 8.098,
+        "y": 4.912
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4597203986860388,
-        "y": 7.4430661133231295
+        "x": 8.024907073819318,
+        "y": 5.151076188990759
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.295350378787879,
-        "y": 6.908503787878788
+        "x": 3.45,
+        "y": 4.643
       },
       "prevControl": {
-        "x": 3.3831312391849773,
-        "y": 7.142586082271048
+        "x": 3.627547348484848,
+        "y": 6.700880681818182
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 0.95,
+      "rotationDegrees": -25.254329340935893
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 1.0,
+      "minWaypointRelativePos": 0.55,
+      "maxWaypointRelativePos": 0.6,
       "constraints": {
-        "maxVelocity": 0.5,
+        "maxVelocity": 1.5,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -47,20 +56,30 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "intake Swap",
-      "waypointRelativePos": 0,
+      "name": "stopShoot",
+      "waypointRelativePos": 0.4,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "stopShoot"
+        }
+      }
     },
     {
-      "name": "SpinUpToRPS",
-      "waypointRelativePos": 0,
+      "name": "intake",
+      "waypointRelativePos": 0.6,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake"
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -69,13 +88,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 120.23457689007147
+    "rotation": -25.701312643795372
   },
   "reversed": false,
-  "folder": "Preload Shooting LEft",
+  "folder": "Bump(L)",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 0.6005346312953569
+    "velocity": 0.0,
+    "rotation": -32.10452019698247
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

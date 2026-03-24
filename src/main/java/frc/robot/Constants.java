@@ -40,13 +40,13 @@ public final class Constants
   {    
     public static final int HotdogmotorID = 31;
     public static final int MoverMotorID = 44;
-    public static final int FeederMotorID = 33;
+    public static final int FeederMotorID = 45;
     public static final double IntakeMoverSpeed = 0.1;
     public static final double HotDogSpeed = 1;
-    public static final double intakeSpeed = -1;
+    public static final double intakeSpeed = 1;
 
-    public static final double flipClosedEncoderValue = 0;
-    public static final double flipOpenEncoderValue = -17.975;
+    public static final double flipClosedEncoderValue = 0.1;
+    public static final double flipOpenEncoderValue = -17.5;
     public static final int flipSmartCurrentLimit = 10;
   }
 
@@ -65,7 +65,7 @@ public final class Constants
     public static final int ShooterMotorID = 6;
     public static final int ShooterMotor2ID = 7;
     public static final double hoodSpeed = .25;
-    public static double shooterDesiredRPS = 45;
+    public static double shooterDesiredRPS = 50 ;
     public static int towerDesiredRPS = -90;
     public static double KS = 0.05;
     public static double KV = 0.12;

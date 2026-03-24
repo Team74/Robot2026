@@ -46,7 +46,10 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 //import com.ctre.phoenix6.sim.TalonFXSimState.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -66,6 +69,7 @@ public class Shooter extends SubsystemBase {
   double desiredShootSpeed = Constants.ShooterConstants.shooterDesiredRPS; 
   int desiredTowerSpeed = Constants.ShooterConstants.towerDesiredRPS; 
   double hotdogSpeed = Constants.IntakeConstants.HotDogSpeed;
+  static int i = 0;
   public double currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
 
   CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
@@ -94,13 +98,35 @@ public class Shooter extends SubsystemBase {
     shooterMotor2.setNeutralMode(NeutralModeValue.Coast);
     shooterMotor2.setControl(thign);
 
+    SparkMaxConfig towerMotorConfig = new SparkMaxConfig();
+
+    towerMotorConfig
+      .idleMode(IdleMode.kCoast)
+      .smartCurrentLimit(40);
+        
+    towerMotor.configure(towerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    
+
+  }
+
+  public double pulse(int FullCycleLength){
+    if (i == FullCycleLength){
+      i = 0;
+      return 0;
+    } else if (i > (FullCycleLength/2)) {
+      i++;
+      return 0;
+    } else {
+      i++;
+      return 1;
+    }
   }
 
   public Command shoot(){
     return run(()->{
       currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();   
 
-System.out.println("currentRPS_Shooter: " + currentRPS_Shooter);
+      //System.out.println("currentRPS_Shooter: " + currentRPS_Shooter);
 
       SmartDashboard.putNumber("ShooterRPS", currentRPS_Shooter);
       SmartDashboard.putNumber("Shooter desiredSpeed", desiredShootSpeed);
@@ -108,7 +134,7 @@ System.out.println("currentRPS_Shooter: " + currentRPS_Shooter);
       var request = new VelocityVoltage(0).withSlot(0);
       shooterMotor.setControl(request.withVelocity(desiredShootSpeed).withFeedForward(0.5));
 
-      if (currentRPS_Shooter >= desiredShootSpeed * 0.9 && (currentRPS_Shooter <= desiredShootSpeed*1.1) ) {
+      if (currentRPS_Shooter >= desiredShootSpeed * 0.9) {
         towerMotor.set(desiredTowerSpeed * -1);
         hotdogMotor.set(hotdogSpeed);
       } else {
