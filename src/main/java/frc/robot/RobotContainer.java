@@ -119,6 +119,7 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
+      DriverStation.silenceJoystickConnectionWarning(true);
      // addTrajectory();
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
@@ -211,7 +212,7 @@ public class RobotContainer {
       //PATHPLANNER ON THE FLY
       var alliance = Alliance.Blue;
 
-      if (DriverStation.getAlliance() != null){
+      if (DriverStation.getAlliance().isPresent()){
           alliance = DriverStation.getAlliance().get();
       }
       boolean isBlue = (alliance == Alliance.Blue);
