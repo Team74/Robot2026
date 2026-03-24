@@ -131,8 +131,7 @@ public class Shooter extends SubsystemBase {
       SmartDashboard.putNumber("ShooterRPS", currentRPS_Shooter);
       SmartDashboard.putNumber("Shooter desiredSpeed", desiredShootSpeed);
 
-      var request = new VelocityVoltage(0).withSlot(0);
-      shooterMotor.setControl(request.withVelocity(desiredShootSpeed).withFeedForward(0.5));
+      shooterMotor.setControl(m_velocityVoltage.withVelocity(desiredShootSpeed).withFeedForward(0.5));
 
       if (currentRPS_Shooter >= desiredShootSpeed * 0.9) {
         towerMotor.set(desiredTowerSpeed * -1);
@@ -149,8 +148,7 @@ public class Shooter extends SubsystemBase {
       currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
       var reverseShooterSpeed = desiredShootSpeed * -1;       
 
-      var request = new VelocityVoltage(0).withSlot(0);
-      shooterMotor.setControl(request.withVelocity(reverseShooterSpeed).withFeedForward(0.5));
+      shooterMotor.setControl(m_velocityVoltage.withVelocity(reverseShooterSpeed).withFeedForward(0.5));
 
       if (currentRPS_Shooter <= desiredShootSpeed * 0.75) {
         towerMotor.set(desiredTowerSpeed);
@@ -162,8 +160,7 @@ public class Shooter extends SubsystemBase {
   public Command stopShooter(){
   
     return run(()->{
-      var request = new VelocityVoltage(0).withSlot(0);
-      shooterMotor.setControl(request.withVelocity(0).withFeedForward(0.5));
+      shooterMotor.setControl(m_velocityVoltage.withVelocity(0).withFeedForward(0.5));
       towerMotor.set(0);
       hotdogMotor.set(0);
     });
@@ -171,8 +168,7 @@ public class Shooter extends SubsystemBase {
 
   public Command SpinUpToRPS(){
     return run(()->{
-      var request = new VelocityVoltage(0).withSlot(0);
-      shooterMotor.setControl(request.withVelocity(desiredShootSpeed).withFeedForward(0.5));
+      shooterMotor.setControl(m_velocityVoltage.withVelocity(desiredShootSpeed).withFeedForward(0.5));
     });
   }
   
