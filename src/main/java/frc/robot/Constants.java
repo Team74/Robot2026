@@ -18,8 +18,8 @@ import frc.robot.generated.TunerConstants;
 
 public final class Constants
 {
-  public static final double MaxSystemSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed    
-  public static final double MaxSystemAngularRate = RotationsPerSecond.of(1).in(RadiansPerSecond); // 1 of a rotation per second max angular velocity
+  public static final double MaxSystemSpeed = 0.8 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed    
+  public static final double MaxSystemAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 1 of a rotation per second max angular velocity
 
   public static double MAX_SPEED = MaxSystemSpeed;
   public static double MaxAngularRate = MaxSystemAngularRate;
