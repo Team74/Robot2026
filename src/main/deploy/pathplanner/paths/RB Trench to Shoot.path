@@ -1,0 +1,82 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.3916515837104075,
+        "y": 0.6696606334841624
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.410659444272752,
+        "y": 0.9323790487793533
+      },
+      "isLocked": false,
+      "linkedName": "RB Trench"
+    },
+    {
+      "anchor": {
+        "x": 3.1091289592760183,
+        "y": 1.4596945701357469
+      },
+      "prevControl": {
+        "x": 3.2032209893681913,
+        "y": 1.2280770192611776
+      },
+      "nextControl": {
+        "x": 2.938011582151904,
+        "y": 1.8809182142928766
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.5708371040723987,
+        "y": 3.1423642533936653
+      },
+      "prevControl": {
+        "x": 3.178911831042876,
+        "y": 2.2271690710714256
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "shoot",
+      "waypointRelativePos": 1.5942549371633754,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "shoot"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -140.0
+  },
+  "reversed": false,
+  "folder": "Sam's Paths",
+  "idealStartingState": {
+    "velocity": 2.0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

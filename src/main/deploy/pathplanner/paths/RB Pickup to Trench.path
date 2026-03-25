@@ -1,0 +1,82 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.726210407239819,
+        "y": 3.3988687782805425
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.988427831427478,
+        "y": 2.2184320263714827
+      },
+      "isLocked": false,
+      "linkedName": "RB Pickup"
+    },
+    {
+      "anchor": {
+        "x": 6.351346153846154,
+        "y": 0.782522624434389
+      },
+      "prevControl": {
+        "x": 6.806659570213852,
+        "y": 1.0705865111773205
+      },
+      "nextControl": {
+        "x": 5.89624964794283,
+        "y": 0.49459597079111245
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.3916515837104075,
+        "y": 0.6696606334841624
+      },
+      "prevControl": {
+        "x": 5.568798119397632,
+        "y": 0.6819899752924764
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "stopIntake",
+      "waypointRelativePos": 0.14721723518850982,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "stopIntake"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Sam's Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 90.0
+  },
+  "useDefaultConstraints": true
+}

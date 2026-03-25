@@ -3,48 +3,60 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.098,
-        "y": 4.912
+        "x": 4.627635746606335,
+        "y": 7.359298642533937
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.024907073819318,
-        "y": 5.151076188990759
+        "x": 5.861096376064003,
+        "y": 7.57938415094497
+      },
+      "isLocked": false,
+      "linkedName": "LB Trench"
+    },
+    {
+      "anchor": {
+        "x": 7.756990950226244,
+        "y": 6.733427601809955
+      },
+      "prevControl": {
+        "x": 7.709046519713849,
+        "y": 7.752246750198352
+      },
+      "nextControl": {
+        "x": 7.798031674208145,
+        "y": 5.86131221719457
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.45,
-        "y": 4.643
+        "x": 7.756990950226244,
+        "y": 4.999457013574661
       },
       "prevControl": {
-        "x": 3.627547348484848,
-        "y": 6.700880681818182
+        "x": 7.799826243914056,
+        "y": 5.245759952279579
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LB Pickup"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.6,
-      "rotationDegrees": 0.0
-    },
-    {
-      "waypointRelativePos": 0.95,
-      "rotationDegrees": -25.254329340935893
+      "waypointRelativePos": 0.9371069182389937,
+      "rotationDegrees": -90.0
     }
   ],
   "constraintZones": [
     {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.55,
-      "maxWaypointRelativePos": 0.6,
+      "name": "Pickup Slow",
+      "minWaypointRelativePos": 1.041292639138241,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
-        "maxVelocity": 1.5,
+        "maxVelocity": 0.75,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -56,19 +68,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "stopShoot",
-      "waypointRelativePos": 0.4,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "stopShoot"
-        }
-      }
-    },
-    {
       "name": "intake",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.8761220825852777,
       "endWaypointRelativePos": null,
       "command": {
         "type": "named",
@@ -79,7 +80,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -87,14 +88,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -25.701312643795376
+    "velocity": 0.5,
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "Bump(L)",
+  "folder": "Sam's Paths",
   "idealStartingState": {
-    "velocity": 0.0,
-    "rotation": -32.10452019698247
+    "velocity": 0,
+    "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

@@ -1,0 +1,67 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LB Start to Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LB Shoot to Trench"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LB Trench to Pickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LB Pickup to Trench"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LB Trench to Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LB Shoot to Trench"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LB Trench to Out"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Left Side Autons",
+  "choreoAuto": false
+}
