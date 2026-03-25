@@ -18,8 +18,8 @@ import frc.robot.generated.TunerConstants;
 
 public final class Constants
 {
-  public static final double MaxSystemSpeed = 0.8 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed    
-  public static final double MaxSystemAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 1 of a rotation per second max angular velocity
+  public static final double MaxSystemSpeed = 0.6 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed    
+  public static final double MaxSystemAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 1 of a rotation per second max angular velocity
 
   public static double MAX_SPEED = MaxSystemSpeed;
   public static double MaxAngularRate = MaxSystemAngularRate;
@@ -30,20 +30,20 @@ public final class Constants
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
 
   public static final class CurrentLimits {
-    public static double DriveStator = 50.0;
-    public static double DriveSupply = 50.0;
-    public static double SteerStator = 50.0;
-    public static double SteerSupply = 50.0;
+    public static double DriveStator = 40.0;
+    public static double DriveSupply = 40.0;
+    public static double SteerStator = 40.0;
+    public static double SteerSupply = 40.0;
 
-    public static int SupplyCurrentLimit = 40;
-    public static boolean SupplyCurrentLimitEnable = true;
-    public static int StatorCurrentLimit = 40;
-    public static boolean StatorCurrentLimitEnable = true;
-    public static int Tower = 0;
-    public static int Intake = 35;
+    public static int ShooterSupplyCurrentLimit = 30;
+    public static boolean ShooterSupplyCurrentLimitEnable = true;
+    public static int ShooterStatorCurrentLimit = 40;
+    public static boolean ShooterStatorCurrentLimitEnable = true;
+    public static int Tower = 40;
+    public static int Intake = 20;
     public static int IntakeFlipper = 10;
     public static int Hotdog = 0;
-    public static int Hood = 35;
+    public static int Hood = 10;
   }
 
 
