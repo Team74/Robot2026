@@ -30,9 +30,6 @@ public class LEDs extends SubsystemBase {
   final Random random = new Random();
   final int[] raindrop =
       new int[180]; // Random numbers generated at startup. https://xkcd.com/221/.
-  String hubStart;
-  boolean isRedHubActive;
-  Color allianceColor;
 
   Timer timer;
   int timespeed;
@@ -114,73 +111,5 @@ public class LEDs extends SubsystemBase {
     leds.setData(ledBuff);
   }
 
-  public boolean HubTimer() {
-  Optional<Alliance>  alliance =  DriverStation.getAlliance();
-  switch (alliance.toString()){
-    case "Blue": allianceColor = Color.kBlue;
-    break;
-
-    case "Red" : allianceColor = Color.kRed;
-    break;
-
-    default: allianceColor = Color.kBlack;
-    break;
-    }
-  switch (DriverStation.getGameSpecificMessage().charAt(0)){
-    case 'R': isRedHubActive = false;
-    break;
-
-    case 'B': isRedHubActive = true;
-    break;
-// assuming true (active) at start before data because of transition phase
-    default: return true;
-  }
-  if (DriverStation.isTeleopEnabled() && !timer.isRunning()) {
-    timer.reset();
-    timer.start();
-  }
-
-  if (timer.get() >= 110) {
-    // Endgame 
-    // always true
-    return true;
-
-  } else if (timer.get() >= 85) {
-    // Shift 4
-    // if not red first and we are red then true, otherwise false
-      if(!isRedHubActive && alliance.toString() == "Red") {
-      return true;  
-    } 
-    else {return false;}
-
-  } else if (timer.get() >= 60) {
-    // Shift 3
-    // if red first and we are red then true, otherwise false
-      if(isRedHubActive && alliance.toString() == "Red") {
-      return true;  
-    } 
-    else {return false;}
-
-  } else if (timer.get() >= 35) {
-    // Shift 2 
-    // if not red first and we are red then true, otherwise false
-        if(!isRedHubActive && alliance.toString() == "Red") {
-      return true;  
-    } 
-    else {return false;}
-
-  } else if (timer.get() >= 10) {
-    // Shift 1
-    // if red first and we are red then true, otherwise false
-    if(isRedHubActive && alliance.toString() == "Red") {
-      return true;  
-    } 
-    else {return false;}
-
-  } else {
-    // Transition phase
-    // always true
-    return true;
-  }
-  }
+  
 }

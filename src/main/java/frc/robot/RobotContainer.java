@@ -23,8 +23,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Unit;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -60,7 +60,7 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
     private final Intake intake = new Intake(shooter);
-    private final LEDs led = new LEDs();
+    //private final LEDs led = new LEDs();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -173,8 +173,6 @@ public class RobotContainer {
       //At this point, this will just send data to the dashboard.
       shooter.setDefaultCommand(new AimBot(drivetrain, shooter, hood));
       
-      //SmartDashboard.putBoolean("Do I Shoot?", led.HubTimer());
-
       //DRIVER CONTROLS
       //
       //ROBOT RELATIVE
