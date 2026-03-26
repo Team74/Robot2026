@@ -68,6 +68,7 @@ public class Shooter extends SubsystemBase {
 
   double desiredShootSpeed = Constants.ShooterConstants.shooterDesiredRPS; 
   int desiredTowerSpeed = Constants.ShooterConstants.towerDesiredRPS; 
+  double fastShootSpeed = desiredShootSpeed * 1.3;
   double hotdogSpeed = Constants.IntakeConstants.HotDogSpeed;
   static int i = 0;
   public double currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
@@ -125,6 +126,7 @@ public class Shooter extends SubsystemBase {
   public Command shoot(){
     return run(()->{
       currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();   
+      desiredShootSpeed = Constants.ShooterConstants.shooterDesiredRPS; 
 
       //System.out.println("currentRPS_Shooter: " + currentRPS_Shooter);
 
@@ -134,6 +136,26 @@ public class Shooter extends SubsystemBase {
       shooterMotor.setControl(m_velocityVoltage.withVelocity(desiredShootSpeed).withFeedForward(0.5));
 
       if (currentRPS_Shooter >= desiredShootSpeed * 0.9) {
+        towerMotor.set(desiredTowerSpeed * -1);
+        hotdogMotor.set(hotdogSpeed);
+      } else {
+        towerMotor.set(0);
+        hotdogMotor.set(0);
+      }
+    });
+  } 
+
+  public Command shootFast(){
+    return run(()->{
+      currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();   
+        
+
+      SmartDashboard.putNumber("ShooterRPS", currentRPS_Shooter);
+      SmartDashboard.putNumber("Shooter desiredSpeed", desiredShootSpeed);
+
+      shooterMotor.setControl(m_velocityVoltage.withVelocity(fastShootSpeed).withFeedForward(0.5));
+
+      if (currentRPS_Shooter >= fastShootSpeed * 0.9) {
         towerMotor.set(desiredTowerSpeed * -1);
         hotdogMotor.set(hotdogSpeed);
       } else {

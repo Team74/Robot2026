@@ -19,12 +19,14 @@ import frc.robot.generated.TunerConstants;
 public final class Constants
 {
   public static final double MaxSystemSpeed = 0.6 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed    
-  public static final double MaxSystemAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 1 of a rotation per second max angular velocity
+  public static final double MaxSystemAngularRate = RotationsPerSecond.of(0.35).in(RadiansPerSecond); // 1 of a rotation per second max angular velocity
 
   public static double MAX_SPEED = MaxSystemSpeed;
   public static double MaxAngularRate = MaxSystemAngularRate;
   public static double SlowModeDriveMultiplier = 0.5;
   public static double SlowModeAngleMultiplier = 0.5;
+  public static double highModeDriveMultiplier = 1.5;
+  public static double highModeAngleMultiplier = 1.5;
 
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
@@ -86,8 +88,8 @@ public final class Constants
     public static int towerDesiredRPS = -90;
     public static double KS = 0.05;
     public static double KV = 0.12;
-    public static double KP = 0.11;
-    public static double KI = 0.5;
+    public static double KP = 0.1;
+    public static double KI = 0.0;
     public static double KD = 0.01;
   }
 

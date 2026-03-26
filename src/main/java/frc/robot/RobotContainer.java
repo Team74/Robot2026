@@ -205,7 +205,13 @@ public class RobotContainer {
       
       driverXbox.leftBumper().onFalse(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed)
                                      .andThen(() -> Constants.MaxAngularRate = Constants.MaxSystemAngularRate));
+
+      driverXbox.rightBumper().onTrue(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed * Constants.highModeDriveMultiplier)
+                                    .andThen(() -> Constants.MaxAngularRate = Constants.MaxSystemAngularRate * Constants.highModeAngleMultiplier));
       
+      driverXbox.rightBumper().onFalse(runOnce(() -> Constants.MAX_SPEED = Constants.MaxSystemSpeed)
+                                     .andThen(() -> Constants.MaxAngularRate = Constants.MaxSystemAngularRate));
+
       //APRIL TAG ALIGN
       driverXbox.a().whileTrue(new ArcSwerve(drivetrain, drivefaceAngle, driverXbox));
 
@@ -230,7 +236,7 @@ public class RobotContainer {
         .onTrue(hood.SetTarget())
         .whileFalse(hood.StopHood());
 
-      operatorXbox.a().onTrue(hood.MoveToSetTarget()).onFalse(hood.StopHood());
+      //operatorXbox.a().onTrue(hood.MoveToSetTarget()).onFalse(hood.StopHood());
       
 
       testJumpToTargetButton
@@ -261,6 +267,10 @@ public class RobotContainer {
       reverseShootButton
         .onTrue(shooter.reverseShoot())
         .whileFalse(shooter.stopShooter());
+      //SHOOT FAST
+      operatorXbox.a()
+        .onTrue(shooter.shootFast())
+        .onFalse(shooter.stopShooter());
 
       //HOOD UP
       operatorXbox.rightBumper()
