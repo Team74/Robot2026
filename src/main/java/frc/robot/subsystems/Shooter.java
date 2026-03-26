@@ -73,10 +73,10 @@ public class Shooter extends SubsystemBase {
   public double currentRPS_Shooter = shooterMotor.getVelocity().getValueAsDouble();
 
   CurrentLimitsConfigs m_currentLimits = new CurrentLimitsConfigs()
-    .withSupplyCurrentLimit(Constants.ShooterConstants.SupplyCurrentLimit)
-    .withSupplyCurrentLimitEnable(Constants.ShooterConstants.SupplyCurrentLimitEnable)
-    .withStatorCurrentLimit(Constants.ShooterConstants.StatorCurrentLimit)
-    .withStatorCurrentLimitEnable(Constants.ShooterConstants.StatorCurrentLimitEnable);
+    .withSupplyCurrentLimit(Constants.CurrentLimits.ShooterSupplyCurrentLimit)
+    .withSupplyCurrentLimitEnable(Constants.CurrentLimits.ShooterSupplyCurrentLimitEnable)
+    .withStatorCurrentLimit(Constants.CurrentLimits.ShooterStatorCurrentLimit)
+    .withStatorCurrentLimitEnable(Constants.CurrentLimits.ShooterStatorCurrentLimitEnable);
 
   Slot0Configs slot0Configs = new Slot0Configs()
     .withKS(Constants.ShooterConstants.KS)
@@ -102,7 +102,7 @@ public class Shooter extends SubsystemBase {
 
     towerMotorConfig
       .idleMode(IdleMode.kCoast)
-      .smartCurrentLimit(40);
+      .smartCurrentLimit(Constants.CurrentLimits.Tower);
         
     towerMotor.configure(towerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     

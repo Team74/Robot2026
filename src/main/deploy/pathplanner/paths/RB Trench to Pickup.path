@@ -3,57 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.2,
-        "y": 3.5
+        "x": 4.3916515837104075,
+        "y": 0.6696606334841624
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.2,
-        "y": 2.5
+        "x": 5.3916515837104075,
+        "y": 0.6696606334841624
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "RB Trench"
     },
     {
       "anchor": {
-        "x": 13.0,
-        "y": 0.5
+        "x": 7.736470588235294,
+        "y": 1.2750113122171944
       },
       "prevControl": {
-        "x": 14.586367706428746,
-        "y": 0.5
+        "x": 7.736470588235294,
+        "y": 0.27501131221719455
       },
       "nextControl": {
-        "x": 11.414,
-        "y": 0.5000000000000002
+        "x": 7.736470588235294,
+        "y": 1.7367194570135744
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 9.0,
-        "y": 1.0
+        "x": 7.726210407239819,
+        "y": 3.3988687782805425
       },
       "prevControl": {
-        "x": 9.629375,
-        "y": 0.4375
-      },
-      "nextControl": {
-        "x": 8.370625,
-        "y": 1.5625
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 8.5,
-        "y": 3.5
-      },
-      "prevControl": {
-        "x": 8.5,
-        "y": 2.5
+        "x": 7.818552036199096,
+        "y": 2.3420701357466065
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,25 +46,17 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.7897526501766824,
-      "rotationDegrees": 180.0
-    },
-    {
-      "waypointRelativePos": 1.4734982332155493,
-      "rotationDegrees": 180.0
-    },
-    {
-      "waypointRelativePos": 1.9,
+      "waypointRelativePos": 1.0062893081761006,
       "rotationDegrees": 90.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 2.185474860335204,
-      "maxWaypointRelativePos": 3.0,
+      "minWaypointRelativePos": 1.3357271095152596,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.75,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -92,15 +68,9 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "SetDesiredStateOut",
-      "waypointRelativePos": 0.8648044692737422,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "intake",
-      "waypointRelativePos": 2.0044692737430236,
-      "endWaypointRelativePos": 3.0,
+      "waypointRelativePos": 0.9730700179533214,
+      "endWaypointRelativePos": null,
       "command": null
     }
   ],
@@ -117,10 +87,10 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Sam's Paths",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 150.0
+    "velocity": 2.0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

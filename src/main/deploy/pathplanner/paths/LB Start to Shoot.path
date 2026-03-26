@@ -1,0 +1,88 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.5848344370860925,
+        "y": 7.653990066225166
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.5321718953555346,
+        "y": 7.044240671583577
+      },
+      "isLocked": false,
+      "linkedName": "LB Start"
+    },
+    {
+      "anchor": {
+        "x": 3.4346688741721856,
+        "y": 5.026092715231789
+      },
+      "prevControl": {
+        "x": 3.18348961285849,
+        "y": 5.230889894356819
+      },
+      "nextControl": null,
+      "isLocked": true,
+      "linkedName": "LB Shoot"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.65,
+        "y": 4.0
+      },
+      "rotationOffset": 180.0,
+      "minWaypointRelativePos": 0.29439252336448546,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "intake Swap",
+      "waypointRelativePos": 0.5023364485981291,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intake Swap"
+        }
+      }
+    },
+    {
+      "name": "start shooting",
+      "waypointRelativePos": 0.6606822262118486,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "shoot"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 140.0
+  },
+  "reversed": false,
+  "folder": "Sam's Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

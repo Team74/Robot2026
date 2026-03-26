@@ -1,0 +1,66 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.756990950226244,
+        "y": 4.999457013574661
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.543327107689759,
+        "y": 5.129255944204093
+      },
+      "isLocked": false,
+      "linkedName": "LB Pickup"
+    },
+    {
+      "anchor": {
+        "x": 4.627635746606335,
+        "y": 7.359298642533937
+      },
+      "prevControl": {
+        "x": 6.710452488687784,
+        "y": 7.338778280542987
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LB Trench"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "stopIntake",
+      "waypointRelativePos": 0.3016157989228007,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "stopIntake"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Sam's Paths",
+  "idealStartingState": {
+    "velocity": 0.5,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}

@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogTrigger;
@@ -17,6 +19,8 @@ import frc.robot.subsystems.IntakeFlipper.eDesiredEndState;
 
 import com.revrobotics.spark.config.LimitSwitchConfig;
 import com.revrobotics.spark.config.LimitSwitchConfigAccessor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class Hood extends SubsystemBase {
     SparkMax hood = new SparkMax(Constants.ShooterConstants.HoodMotorID,MotorType.kBrushed);
@@ -55,6 +59,17 @@ public class Hood extends SubsystemBase {
     MOVING,
     MANUAL
   }
+    public Hood() {
+        SparkMaxConfig hoodConfig = new SparkMaxConfig();
+
+        hoodConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(Constants.CurrentLimits.Hood)
+        .closedLoopRampRate(.5);
+
+        hood.configure(hoodConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+
 
     @Override
     public void periodic() {

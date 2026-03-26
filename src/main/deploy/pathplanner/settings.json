@@ -6,13 +6,16 @@
     "Balls on the side already (L)",
     "Bump(L)",
     "Misc.",
-    "Trench right",
+    "Center",
     "Preload Shooting LEft",
     "Preload shooting Right",
-    "Trench Left"
+    "Sam's Paths",
+    "Trench Left",
+    "Trench right"
   ],
   "autoFolders": [
     "Left Side Autons",
+    "New Folder",
     "Right Side Autons"
   ],
   "defaultMaxVel": 3.0,

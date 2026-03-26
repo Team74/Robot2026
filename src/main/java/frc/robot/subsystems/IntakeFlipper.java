@@ -78,7 +78,7 @@ public class IntakeFlipper extends SubsystemBase{
 
     intakeFlipperConfig
       .idleMode(IdleMode.kBrake)
-      .smartCurrentLimit(Constants.IntakeConstants.flipSmartCurrentLimit);
+      .smartCurrentLimit(Constants.CurrentLimits.IntakeFlipper);
         
     intakeMoverMax.configure(intakeFlipperConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }

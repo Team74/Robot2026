@@ -1,0 +1,87 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.4346688741721856,
+        "y": 5.026092715231789
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.58057920485281,
+        "y": 5.752845628634273
+      },
+      "isLocked": false,
+      "linkedName": "LB Shoot"
+    },
+    {
+      "anchor": {
+        "x": 3.0475678733031675,
+        "y": 7.000192307692307
+      },
+      "prevControl": {
+        "x": 2.530686607247292,
+        "y": 6.090911115874703
+      },
+      "nextControl": {
+        "x": 3.4534072905886704,
+        "y": 7.714132187641512
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.627635746606335,
+        "y": 7.359298642533937
+      },
+      "prevControl": {
+        "x": 4.377635746606335,
+        "y": 7.359298642533937
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "LB Trench"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0974842767295592,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "stopShoot",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "stopShoot"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Sam's Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 140.0
+  },
+  "useDefaultConstraints": true
+}
