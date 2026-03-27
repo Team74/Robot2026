@@ -13,13 +13,25 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 3.0
+            "waitTime": 1.5
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "right center to ball pickup"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "return right"
           }
         }
       ]

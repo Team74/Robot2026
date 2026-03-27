@@ -21,6 +21,7 @@ public class hubTiming {
     Timer timer;
     static int autonSecLength = 20;
     static int telopSecLength = 160;
+    Alliance alliance;
 
     gameSegments currentSegment;
 
@@ -28,7 +29,7 @@ public class hubTiming {
         timer = new Timer();
 
         if (DriverStation.getAlliance().isPresent()){
-            var alliance = DriverStation.getAlliance().get();
+            alliance = DriverStation.getAlliance().get();
 
             switch (alliance.toString()){
                 case "Blue": 
@@ -103,37 +104,46 @@ public class hubTiming {
       SmartDashboard.putString("Hub/Game Seq", currentSegment != null ? currentSegment.toString() : "Not Running");
     }
 
+    boolean didWeWinAuton = false;
     public boolean HubTimer() {
+        double matchTime = getMatchTime();
         String msg = DriverStation.getGameSpecificMessage();
         char gameMsg = msg.length() > 0 ? msg.charAt(0) : ' ';
+
+        boolean redInactiveFirst = false;
         switch (gameMsg){
             case 'R': 
-                isRedHubActive = false;
+                redInactiveFirst = true;
             break;
 
             case 'B': 
-                isRedHubActive = true;
+                redInactiveFirst = false;
             break;
         } 
 
-        if(currentSegment != null) {
-            if(currentSegment.whosActive == "BOTH") {
-                return true;  
-            }
-            //Winner
-            if(currentSegment.whosActive == "W" && allianceColor == Color.kRed) {
-                return true;  
-            }
-            //Loser
-            if(currentSegment.whosActive == "L" && allianceColor != Color.kRed) {
-                return true;  
-            }
-            else {
-                return false;  
-            }
-        }
-        else {
-            return false;  
+        boolean shift1Active = switch (alliance) {
+            case Red -> !redInactiveFirst;
+            case Blue -> redInactiveFirst;
+        };
+        
+        if (matchTime > 130) {
+            // Transition shift, hub is active.
+            return true;
+        } else if (matchTime > 105) {
+            // Shift 1
+            return shift1Active;
+        } else if (matchTime > 80) {
+            // Shift 2
+            return !shift1Active;
+        } else if (matchTime > 55) {
+            // Shift 3
+            return shift1Active;
+        } else if (matchTime > 30) {
+            // Shift 4
+            return !shift1Active;
+        } else {
+            // End game, hub always active.
+            return true;
         }
     }
 }
