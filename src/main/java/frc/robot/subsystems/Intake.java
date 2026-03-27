@@ -56,7 +56,7 @@ public class Intake extends SubsystemBase{
 
   public Command intakeOut(){
     return run(()->{
-      intakeMax.set(intakeDesiredSpeed);
+      intakeMax.set(-intakeDesiredSpeed);
       hotdogMotor.set(hotdogSpeed * -0.5);
     });
   } 
