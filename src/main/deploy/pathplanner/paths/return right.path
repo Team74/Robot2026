@@ -54,8 +54,14 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
+      "name": "SpinUpToRPS",
+      "waypointRelativePos": 1.128158844765337,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
       "name": "shoot",
-      "waypointRelativePos": 1.1740674955595032,
+      "waypointRelativePos": 1.676895306859217,
       "endWaypointRelativePos": 2.0,
       "command": {
         "type": "named",

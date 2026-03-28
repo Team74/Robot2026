@@ -44,7 +44,7 @@ public final class Constants
     public static int Tower = 40;
     public static int Intake = 20;
     public static int IntakeFlipper = 10;
-    public static int Hotdog = 0;
+  public static int Hotdog = 0;
     public static int Hood = 10;
   }
 

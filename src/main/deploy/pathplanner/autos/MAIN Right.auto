@@ -33,6 +33,12 @@
           "data": {
             "pathName": "return right"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 5.0
+          }
         }
       ]
     }
