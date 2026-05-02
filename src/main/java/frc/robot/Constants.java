@@ -14,11 +14,12 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.GenericHID.HIDType;
 import frc.robot.generated.TunerConstants;
 
 public final class Constants
 {
-  public static final double MaxSystemSpeed = 0.6 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed    
+  public static final double MaxSystemSpeed = 0.3 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed    
   public static final double MaxSystemAngularRate = RotationsPerSecond.of(0.35).in(RadiansPerSecond); // 1 of a rotation per second max angular velocity
 
   public static double MAX_SPEED = MaxSystemSpeed;
